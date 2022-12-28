@@ -1,0 +1,40 @@
+package Movebehavior;
+
+import Game.Board;
+import Game.Location;
+import Game.Square;
+import Pieces.PieceType;
+
+import java.util.ArrayList;
+
+import static Movebehavior.Validators.isCollidedWithSameColor;
+import static Movebehavior.Validators.isLocationOnBoard;
+
+public class KnightMove implements MoveBehavior {
+
+    private int directional_x[] = {2, 2, -2, -2, 1, 1, -1, -1};
+    private int directional_y[] = {-1, 1, -1, 1, 2, -2, 2, -2};
+
+    @Override
+    public ArrayList<Location> CalculateLocations(Location location, Board board) {
+
+        ArrayList<Location> availableLocations = new ArrayList<>();
+        Square currentSquare = board.getSpecifiedSquare(location);
+
+        for (int i = 0; i < 8; i++) {
+            Location destinationLocation = new Location(location.getX() + this.directional_x[i], location.getY() + this.directional_y[i]);
+            if (isLocationOnBoard(destinationLocation)) {
+                Square destSquare = board.getSpecifiedSquare(destinationLocation);
+                if(destSquare.getPiece()!= null) {
+                    if (!isCollidedWithSameColor(currentSquare.getPiece().getColor(), destSquare.getPiece().getColor())
+                    && destSquare.getPiece().getType() != PieceType.KING) {
+                            availableLocations.add(destinationLocation);
+                    }
+                }
+            }
+        }
+        return availableLocations;
+    }
+
+
+}
