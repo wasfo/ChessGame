@@ -44,7 +44,7 @@ public class King extends Piece {
     }
 
 
-    public boolean isPathClear(Board board, int directional_y[], int directional_x[], PieceType pieceType) {
+    public boolean isPathClearFromEnemyPiece(Board board, int directional_y[], int directional_x[], PieceType pieceType) {
         Location kingLocation = this.getLocation();
         int x = kingLocation.getX();
         int y = kingLocation.getY();
@@ -75,24 +75,28 @@ public class King extends Piece {
     }
 
     public boolean isDiagonalThreatened(Board board) {
+         int directional_x[] = {+1, -1, -1, +1};
+         int directional_y[] = {+1, -1, +1, -1};
 
-        return false;
+
+        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP);
     }
 
     public boolean isColumnThreatened(Board board) {
-        Location kingLocation = this.getLocation();
-        int x = kingLocation.getX();
-        int y = kingLocation.getY();
+        int directional_x[] = {0, 0};
+        int directional_y[] = {+1, -1};
 
+        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) &&
+                isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
 
     }
-
     public boolean isRowThreatened(Board board) {
 
-        Location kingLocation = this.getLocation();
-        int x = kingLocation.getX();
-        int y = kingLocation.getY();
+        int directional_x[] = {+1, -1};
+        int directional_y[] = {0, 0};
 
+        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) &&
+                isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
 
     }
 
@@ -104,6 +108,7 @@ public class King extends Piece {
                 (nextSquare.getPiece().getType() == pieceType)
                 && nextSquare.getPiece().getColor() != this.getColor());
     }
+
     public boolean isNextSquareHasAllyPiece(Square nextSquare) {
         return nextSquare.getPiece().getColor() == this.getColor();
     }
