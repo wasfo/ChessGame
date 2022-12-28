@@ -12,8 +12,8 @@ import static Movebehavior.Validators.isLocationOnBoard;
 
 public class KnightMove implements MoveBehavior {
 
-    private int directional_x[] = {2, 2, -2, -2, 1, 1, -1, -1};
-    private int directional_y[] = {-1, 1, -1, 1, 2, -2, 2, -2};
+    private final int[] directional_x = {2, 2, -2, -2, 1, 1, -1, -1};
+    private final int[] directional_y = {-1, 1, -1, 1, 2, -2, 2, -2};
 
     @Override
     public ArrayList<Location> CalculateLocations(Location location, Board board) {

@@ -13,8 +13,8 @@ import static Movebehavior.Validators.*;
 
 public class HorizentalMove implements MoveBehavior {
 
-    private int directional_x[] = {+1, -1};
-    private int directional_y[] = {0, 0};
+    private final int[] directional_x = {+1, -1};
+    private final int[] directional_y = {0, 0};
 
 
     @Override

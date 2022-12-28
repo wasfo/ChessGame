@@ -27,7 +27,7 @@ public class Knight extends Piece {
 
         King king = player.getPlayerKing();
 
-        if (king.isUnderCheck() == false) { // if the king is not under check
+        if (!king.isInCheck(board)) { // if the king is not under check
 
             return availableLocations;
 

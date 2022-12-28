@@ -11,29 +11,23 @@ import java.util.ArrayList;
 import static Movebehavior.Validators.isLocationOnBoard;
 
 public class King extends Piece {
-    private boolean underCheck;
+
 
     public King(Color color) {
         super(PieceType.KING, color);
-        this.underCheck = false;
+
     }
 
-    public boolean isUnderCheck() {
-        return this.underCheck;
-    }
-
-    public void setUnderCheck(boolean underCheck) {
-        this.underCheck = underCheck;
-    }
 
     public boolean isInCheck(Board board) {
 
-        return (!isRowThreatened(board) && !isColumnThreatened(board) && !isDiagonalThreatened(board));
+        return (!isRowThreatened(board) && !isColumnThreatened(board) && !isDiagonalThreatened(board) &&
+                !isAttackedByPawn(board));
 
     }
 
 
-    public boolean isNotAttackedByPawn(Board board) {
+    public boolean isAttackedByPawn(Board board) {
         Location kingLocation = this.getLocation();
         int x = kingLocation.getX();
         int y = kingLocation.getY();
@@ -77,8 +71,6 @@ public class King extends Piece {
     public boolean isDiagonalThreatened(Board board) {
          int directional_x[] = {+1, -1, -1, +1};
          int directional_y[] = {+1, -1, +1, -1};
-
-
         return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP);
     }
 
