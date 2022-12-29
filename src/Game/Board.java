@@ -3,15 +3,18 @@ package Game;
 import Pieces.*;
 
 
-public class Board {
+public class Board implements Cloneable{
     private Square[][] squares;
 
-    public King getBlackKing(){
-        return (King) squares[7][4].getPiece();
-    }
+    private King whiteKing;
+    private King blackKing;
 
-    public King getWhiteKing(){
-        return (King) squares[0][4].getPiece();
+    public King getKing(Color color) {
+        if(color == Color.BLACK)
+            return this.blackKing;
+        else
+            return this.whiteKing;
+
     }
 
     public Square[][] getSquares() {
@@ -23,25 +26,28 @@ public class Board {
     }
 
     public void setPieceOnLocation(Piece piece , Location location) {
+
         getSpecifiedSquare(location).setPiece(piece);
     }
 
     public Board() {
         squares = new Square[8][8];
+        whiteKing = new King(Color.WHITE);
+        blackKing = new King(Color.BLACK);
+
         createEmptyBoard();
     }
 
-    public void UpdateBoard(Location start, Location end) {
-        Piece pieceOnLocation = squares[start.getY()][start.getX()].getPiece();
+    public void UpdateBoard(Location fromLocation, Location toLocation) {
+        Piece pieceOnLocation = squares[fromLocation.getY()][fromLocation.getX()].getPiece();
 
-        if (pieceOnLocation == null)
-            System.out.println(" empty square ");
-        Square destSquare = squares[end.getY()][end.getX()];
+        if (pieceOnLocation != null) {
+            Square destSquare = squares[toLocation.getY()][toLocation.getX()];
+            destSquare.setPiece(pieceOnLocation);
+            squares[fromLocation.getY()][fromLocation.getX()].RemovePiece();
+        }
 
-        destSquare.setPiece(pieceOnLocation);
-        squares[start.getY()][start.getX()].RemovePiece();
     }
-
     private void createEmptyBoard() {
         Color color[] = Color.values();
         for (int i = 0; i < 8; i++) {
@@ -92,11 +98,11 @@ public class Board {
         squares[7][5].setPiece(new Bishop(Color.BLACK));
 
 
-        squares[0][4].setPiece(new King(Color.WHITE));
+        squares[0][4].setPiece(this.whiteKing);
         squares[0][3].setPiece(new Queen(Color.WHITE));
 
 
-        squares[7][4].setPiece(new King(Color.BLACK));
+        squares[7][4].setPiece(this.blackKing);
         squares[7][3].setPiece(new Queen(Color.BLACK));
 
     }
@@ -117,4 +123,14 @@ public class Board {
         }
     }
 
+    @Override
+    public Board clone() {
+        try {
+            Board clone = (Board) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

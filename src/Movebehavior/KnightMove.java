@@ -31,6 +31,8 @@ public class KnightMove implements MoveBehavior {
                             availableLocations.add(destinationLocation);
                     }
                 }
+                else availableLocations.add(destinationLocation);
+
             }
         }
         return availableLocations;

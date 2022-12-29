@@ -1,39 +1,40 @@
 package Game;
+
 import Pieces.*;
 import Player.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
 
 public class ChessGame {
+    private Board chessBoard = new Board();
+    private List<Move> movesHistory = new ArrayList<Move>();
+    private Player whitePlayer, blackPlayer;
 
-  private Board chessBoard  = new Board();
-  private List<Move> movesHistory = new ArrayList<Move>();
-  private Player whitePlayer, blackPlayer;
-
-    public void start(){
+    public void start() {
 
 
-        chessBoard = new Board();
-       // whitePlayer = new Player(chessBoard.getWhiteKing(),Color.WHITE);
-        //blackPlayer = new Player(chessBoard.getBlackKing(),Color.BLACK);
-        King king = new King(Color.WHITE);
-        chessBoard.setPieceOnLocation(king,new Location(5, 6));
-        chessBoard.setPieceOnLocation(new Rook(Color.BLACK),new Location(4, 0));
-        chessBoard.setPieceOnLocation(new Queen(Color.BLACK),new Location(7,4));
-        System.out.println(king.isInCheck(chessBoard));
-      //  chessBoard.SetupBoard();
+        whitePlayer = new Player(chessBoard.getKing(Color.WHITE), Color.WHITE);
+        blackPlayer = new Player(chessBoard.getKing(Color.BLACK), Color.BLACK);
+        King blackKing = chessBoard.getKing(Color.BLACK);
+
+        chessBoard.setPieceOnLocation(blackKing, new Location(6, 6));
+        chessBoard.setPieceOnLocation(new Knight(Color.WHITE), new Location(4, 7));
+
         chessBoard.DisplayCurrentPosition();
+        System.out.println();
+      //  System.out.println(blackKing.CalculateLegalMoveLocations(chessBoard, blackPlayer));
+
+        //  chessBoard.SetupBoard();
 
 
-       // BoardController boardController= new BoardController(this.chessBoard);
+
+        // BoardController boardController= new BoardController(this.chessBoard);
 
 //        System.out.println();
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.print("Enter number of correct Moves: ");
-       // int numberOfMoves = scanner.nextInt();
+        // int numberOfMoves = scanner.nextInt();
 
 //        for (int i = 0; i < numberOfMoves; i++) {
 //            System.out.print("from: ");
@@ -64,9 +65,8 @@ public class ChessGame {
 
     }
 
-    public static void main(String[] args)
-    {
-            new ChessGame().start();
+    public static void main(String[] args) {
+        new ChessGame().start();
     }
 
 }

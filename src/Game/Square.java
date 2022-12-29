@@ -19,6 +19,7 @@ public class Square {
     }
 
     public void setPiece(Piece piece) {
+
         piece.setLocation(this.location);
         this.piece = piece;
     }
