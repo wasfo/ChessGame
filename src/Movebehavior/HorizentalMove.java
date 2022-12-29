@@ -19,7 +19,7 @@ public class HorizentalMove implements MoveBehavior {
 
     @Override
     public ArrayList<Location> CalculateLocations(Location location, Board board) {
-        return GeneralMove.DirectMove(location, board, this.directional_x, this.directional_y);
+        return MoveDirector.DirectMove(location, board, this.directional_x, this.directional_y);
     }
 
 }

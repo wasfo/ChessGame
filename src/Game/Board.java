@@ -6,6 +6,13 @@ import Pieces.*;
 public class Board {
     private Square[][] squares;
 
+    public King getBlackKing(){
+        return (King) squares[7][4].getPiece();
+    }
+
+    public King getWhiteKing(){
+        return (King) squares[0][4].getPiece();
+    }
 
     public Square[][] getSquares() {
         return squares;

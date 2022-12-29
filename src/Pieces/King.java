@@ -1,13 +1,10 @@
 package Pieces;
-
 import Game.Board;
 import Game.Color;
 import Game.Location;
 import Game.Square;
 import Player.Player;
-
 import java.util.ArrayList;
-
 import static Movebehavior.Validators.isLocationOnBoard;
 
 public class King extends Piece {
@@ -17,16 +14,25 @@ public class King extends Piece {
         super(PieceType.KING, color);
 
     }
+    @Override
+    public ArrayList<Location> CalculateLegalMoveLocations(Board board, Player player) {
+
+        return null;
+    }
 
 
     public boolean isInCheck(Board board) {
 
-        return (!isRowThreatened(board) && !isColumnThreatened(board) && !isDiagonalThreatened(board) &&
-                !isAttackedByPawn(board));
+        System.out.println("isRowThreatened: "+ isRowThreatened(board));
+        System.out.println("isColumnThreatened: "+ isColumnThreatened(board));
+        System.out.println("isDiagonalThreatened: "+ isDiagonalThreatened(board));
+        System.out.println("isAttackedByPawn: "+ isAttackedByPawn(board));
+
+
+        return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
+                isAttackedByPawn(board));
 
     }
-
-
     public boolean isAttackedByPawn(Board board) {
         Location kingLocation = this.getLocation();
         int x = kingLocation.getX();
@@ -38,7 +44,7 @@ public class King extends Piece {
     }
 
 
-    public boolean isPathClearFromEnemyPiece(Board board, int directional_y[], int directional_x[], PieceType pieceType) {
+    public boolean isPathClearFromEnemyPiece(Board board, int[] directional_y, int[] directional_x, PieceType pieceType) {
         Location kingLocation = this.getLocation();
         int x = kingLocation.getX();
         int y = kingLocation.getY();
@@ -52,16 +58,17 @@ public class King extends Piece {
             while (isLocationOnBoard(tempLocation)) {
                 nextSquare = board.getSpecifiedSquare(tempLocation);
                 if (isNextSquareEmpty(nextSquare))
+                {
+                    tempX += directional_x[i];
+                    tempY += directional_y[i];
+                    tempLocation = new Location(tempX, tempY);
                     continue;
-                if (isNextSquareHasAllyPiece(nextSquare))
+                }
+                if (isNextSquareHasAllyPiece(nextSquare) )
                     break;
                 if (isNextSquareHasEnemyPieceType(nextSquare, pieceType))
                     return false;
-
-                tempX += directional_x[i];
-                tempY += directional_y[i];
-                tempLocation = new Location(tempX, tempY);
-
+                else break;
             }
 
         }
@@ -69,26 +76,26 @@ public class King extends Piece {
     }
 
     public boolean isDiagonalThreatened(Board board) {
-         int directional_x[] = {+1, -1, -1, +1};
-         int directional_y[] = {+1, -1, +1, -1};
-        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP);
+         int[] directional_x = {+1, -1, -1, +1};
+         int[] directional_y = {+1, -1, +1, -1};
+        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP) ||
+                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) ;
     }
 
     public boolean isColumnThreatened(Board board) {
-        int directional_x[] = {0, 0};
-        int directional_y[] = {+1, -1};
+        int[] directional_x = {0, 0};
+        int[] directional_y = {+1, -1};
 
-        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) &&
-                isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
-
+        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK) ||
+                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
     }
     public boolean isRowThreatened(Board board) {
 
-        int directional_x[] = {+1, -1};
-        int directional_y[] = {0, 0};
+        int[] directional_x = {+1, -1};
+        int[] directional_y = {0, 0};
 
-        return isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) &&
-                isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
+        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) ||
+                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
 
     }
 
@@ -105,15 +112,13 @@ public class King extends Piece {
         return nextSquare.getPiece().getColor() == this.getColor();
     }
 
+
     public boolean isNextSquareEmpty(Square nextSquare) {
         return (nextSquare.getPiece() == null);
     }
 
 
-    @Override
-    public ArrayList<Location> CalculateLegalMoveLocations(Board board, Player player) {
-        return null;
-    }
+
 
 
 }

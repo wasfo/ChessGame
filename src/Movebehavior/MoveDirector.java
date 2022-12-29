@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import static Movebehavior.Validators.isLocationOnBoard;
 
-public class GeneralMove {
+public class MoveDirector {
 
 
     public static ArrayList<Location> DirectMove(Location location, Board board, int directional_x[], int directional_y[]){
