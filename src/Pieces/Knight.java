@@ -11,26 +11,15 @@ public class Knight extends Piece {
     public Knight(Color color) {
         super(PieceType.KNIGHT, color);
     }
-
-
-
     public ArrayList<Location> CalculateLegalMoveLocations(final Board board, final Player player){
 
         ArrayList<Location> availableLocations = new ArrayList<>();
-
         Location currentLocation = this.getLocation();
-
         MoveBehavior knightMove = AddMoveBehavior(new KnightMove());
-
         availableLocations.addAll(knightMove.CalculateLocations(currentLocation, board));
-
-
         King king = player.getPlayerKing();
-
         if (!king.isInCheck(board)) { // if the king is not under check
-
             return availableLocations;
-
         } else {
 
             //defend moves

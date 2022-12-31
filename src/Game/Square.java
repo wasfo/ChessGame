@@ -19,9 +19,11 @@ public class Square {
     }
 
     public void setPiece(Piece piece) {
-
         piece.setLocation(this.location);
         this.piece = piece;
+    }
+    public boolean isEmpty(){
+        return this.piece == null;
     }
     public void RemovePiece() {
         this.piece = null;

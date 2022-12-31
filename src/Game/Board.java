@@ -1,47 +1,38 @@
 package Game;
-
 import Pieces.*;
 
+import static Movebehavior.Validators.*;
 
-public class Board implements Cloneable{
-    private Square[][] squares;
+public class Board implements Cloneable {
+    private final Square[][] squares;
 
-    private King whiteKing;
-    private King blackKing;
+    private final King whiteKing;
+    private final King blackKing;
 
     public King getKing(Color color) {
-        if(color == Color.BLACK)
+        if (color == Color.BLACK)
             return this.blackKing;
         else
             return this.whiteKing;
-
     }
-
-    public Square[][] getSquares() {
-        return squares;
-    }
-
-    public Square getSpecifiedSquare(Location location) {
+    public Square getSpecificSquare(Location location) {
         return squares[location.getY()][location.getX()];
     }
 
-    public void setPieceOnLocation(Piece piece , Location location) {
-
-        getSpecifiedSquare(location).setPiece(piece);
+    public void setPieceOnLocation(Piece piece, Location location) {
+        getSpecificSquare(location).setPiece(piece);
     }
 
     public Board() {
         squares = new Square[8][8];
         whiteKing = new King(Color.WHITE);
         blackKing = new King(Color.BLACK);
-
         createEmptyBoard();
     }
 
     public void UpdateBoard(Location fromLocation, Location toLocation) {
         Piece pieceOnLocation = squares[fromLocation.getY()][fromLocation.getX()].getPiece();
-
-        if (pieceOnLocation != null) {
+        if (pieceOnLocation != null && isLocationOnBoard(toLocation) ) {
             Square destSquare = squares[toLocation.getY()][toLocation.getX()];
             destSquare.setPiece(pieceOnLocation);
             squares[fromLocation.getY()][fromLocation.getX()].RemovePiece();
@@ -107,7 +98,6 @@ public class Board implements Cloneable{
 
     }
 
-
     public void DisplayCurrentPosition() {
         for (int j = 7; j >= 0; j--) {
             System.out.print("\n");
@@ -117,7 +107,6 @@ public class Board implements Cloneable{
             for (int i = 0; i < 8; i++) {
                 System.out.print(squares[j][i].indices());
                 System.out.printf(" %12s ", squares[j][i]);
-
 
             }
         }

@@ -10,17 +10,11 @@ public class BoardController {
     Board board;
 
     public Board getBoard() {
-        return board;
+        return this.board;
     }
 
     public BoardController(Board board) {
         this.board = board;
-    }
-
-    public boolean isMoveAllowed(Location start, Location end) {
-        Square startSquare = board.getSpecifiedSquare(start);
-        Square endSquare = board.getSpecifiedSquare(end);
-        return false;
     }
 
 
@@ -37,23 +31,23 @@ public class BoardController {
         return location.getX() >= 0 && location.getX() < 8 && location.getY() >= 0 && location.getY() < 8;
     }
 
-    public boolean isSameColor(Color first, Color second) { // please ahmad check this function
-        return first == second;
+    public boolean isNotSameColor(Color first, Color second) { // please ahmad check this function
+        return first != second;
     }
 
     public boolean isLegalMove(Move currentMove, Player currentPlayer) {
         //check on location validity
         if (!isLocationValid(currentMove.getStartLocation()) || !isLocationValid(currentMove.getEndLocation())) {
-            System.out.println("Location is invalid");
+            System.out.println("Invalid move");
             return false;
         }
 
-        Square startSquare = board.getSpecifiedSquare(currentMove.getStartLocation());
-        Square targetSquare = board.getSpecifiedSquare(currentMove.getEndLocation());
+        Square startSquare = board.getSpecificSquare(currentMove.getStartLocation());
+        Square targetSquare = board.getSpecificSquare(currentMove.getEndLocation());
 
         // please make this cleaner
         if (startSquare.getPiece() == null
-                || !isSameColor(startSquare.getPiece().getColor(), currentPlayer.getColor())) {
+                || isNotSameColor(startSquare.getPiece().getColor(), currentPlayer.getColor())) {
             return false;
         }
 

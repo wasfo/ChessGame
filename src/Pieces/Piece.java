@@ -6,13 +6,9 @@ import Player.Player;
 import java.util.ArrayList;
 
 public abstract class Piece {
-
-
     protected PieceType type;
-
     protected Color color;
     protected Location location;
-
     public MoveBehavior AddMoveBehavior(MoveBehavior moveBehavior) {
         return moveBehavior;
     }
@@ -22,13 +18,10 @@ public abstract class Piece {
         this.color = color;
 
     }
-
     public Piece() {
         this.type = null;
         this.color = null;
     }
-
-
     public PieceType getType() {
         return type;
     }

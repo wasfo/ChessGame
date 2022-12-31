@@ -17,14 +17,12 @@ public class KnightMove implements MoveBehavior {
 
     @Override
     public ArrayList<Location> CalculateLocations(Location location, Board board) {
-
         ArrayList<Location> availableLocations = new ArrayList<>();
-        Square currentSquare = board.getSpecifiedSquare(location);
-
+        Square currentSquare = board.getSpecificSquare(location);
         for (int i = 0; i < 8; i++) {
             Location destinationLocation = new Location(location.getX() + this.directional_x[i], location.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
-                Square destSquare = board.getSpecifiedSquare(destinationLocation);
+                Square destSquare = board.getSpecificSquare(destinationLocation);
                 if(destSquare.getPiece()!= null) {
                     if (!isCollidedWithSameColor(currentSquare.getPiece().getColor(), destSquare.getPiece().getColor())
                     && destSquare.getPiece().getType() != PieceType.KING) {
@@ -32,11 +30,8 @@ public class KnightMove implements MoveBehavior {
                     }
                 }
                 else availableLocations.add(destinationLocation);
-
             }
         }
         return availableLocations;
     }
-
-
 }

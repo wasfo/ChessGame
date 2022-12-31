@@ -8,12 +8,9 @@ import Player.Player;
 import java.util.ArrayList;
 
 public class Rook extends Piece{
-
-
     public Rook(Color color) {
         super(PieceType.ROOK, color);
     }
-
     @Override
     public ArrayList<Location> CalculateLegalMoveLocations(Board board, Player player) {
         ArrayList<Location> availableLocations = new ArrayList<>();
