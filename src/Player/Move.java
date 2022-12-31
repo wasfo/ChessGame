@@ -21,4 +21,6 @@ public class Move {
     public void setEndLocation(Location endLocation) {
         this.endLocation = endLocation;
     }
+
+
 }

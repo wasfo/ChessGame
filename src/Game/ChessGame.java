@@ -2,33 +2,48 @@ package Game;
 
 import Pieces.*;
 import Player.*;
-
+import java.util.regex.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ChessGame {
     private Board chessBoard = new Board();
     private List<Move> movesHistory = new ArrayList<Move>();
     private Player whitePlayer, blackPlayer;
+
+    public static void EnterMove(Player player){
+        Scanner scanner = new Scanner(System.in);
+        String  enteredMove = scanner.nextLine();
+
+        System.out.println(enteredMove.matches("[a-h][1-8]"));
+
+        System.out.println(enteredMove.matches("\\bmove\\s[a-h][1-8]\\s[a-h][1-8]"));
+
+        String[] moveArguments = enteredMove.replaceAll("\\s+$", "").split(" ");
+
+
+    }
+
     public void start() {
         whitePlayer = new Player(chessBoard.getKing(Color.WHITE), Color.WHITE);
         blackPlayer = new Player(chessBoard.getKing(Color.BLACK), Color.BLACK);
         King blackKing = chessBoard.getKing(Color.BLACK);
 
-        chessBoard.setPieceOnLocation(blackKing, new Location(5, 6));
+        chessBoard.setPieceOnLocation(blackKing, new Location(5, 7));
         chessBoard.setPieceOnLocation(new Rook(Color.WHITE), new Location(4, 7));
+        chessBoard.setPieceOnLocation(new Rook(Color.WHITE), new Location(5, 0));
 
-        chessBoard.UpdateBoard(new Location(6, 6), new Location(7, 5));
+       // chessBoard.UpdateBoard(new Location(4, 7), new Location(3, 7));
         chessBoard.DisplayCurrentPosition();
-
+        System.out.println(blackKing.isInCheck(chessBoard));
         System.out.println(blackKing.CalculateLegalMoveLocations(chessBoard, blackPlayer));
 
-        System.out.println(blackKing.getLocation());
+        // System.out.println(blackKing.getLocation());
 
         //  System.out.println(blackKing.CalculateLegalMoveLocations(chessBoard, blackPlayer));
 
         //  chessBoard.SetupBoard();
-
 
 
         // BoardController boardController= new BoardController(this.chessBoard);
@@ -68,7 +83,9 @@ public class ChessGame {
     }
 
     public static void main(String[] args) {
-        new ChessGame().start();
+
+        ChessGame.EnterMove(new Player(new King(Color.BLACK),Color.BLACK));
+      //  new ChessGame().start();
     }
 
 }

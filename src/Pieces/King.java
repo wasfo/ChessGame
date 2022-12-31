@@ -28,11 +28,11 @@ public class King extends Piece implements Cloneable {
 
     public boolean isInCheck(Board board) {
 
-//        System.out.println("isRowThreatened: " + isRowThreatened(board));
-//        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
-//        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
-//        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
-//        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
+        System.out.println("isRowThreatened: " + isRowThreatened(board));
+        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
+        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
+        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
+        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
         return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
                 isAttackedByPawn(board) || isAttackedByKnight(board));
 
@@ -80,7 +80,7 @@ public class King extends Piece implements Cloneable {
         return false;
     }
 
-    public boolean isPathClearFromEnemyPiece(Board board, int[] directional_y, int[] directional_x, PieceType pieceType) {
+    public boolean isPathNotClearFromEnemyPiece(Board board, int[] directional_y, int[] directional_x, PieceType pieceType) {
         Location kingLocation = this.getLocation();
         int x = kingLocation.getX();
         int y = kingLocation.getY();
@@ -101,36 +101,36 @@ public class King extends Piece implements Cloneable {
                 if (isNextSquareHasAllyPiece(nextSquare))
                     break;
                 if (isNextSquareHasEnemyPieceType(nextSquare, pieceType)) {
-                    return false;
+                    return true;
                 } else {
                     break;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public boolean isDiagonalThreatened(Board board) {
         int[] directional_x = {+1, -1, -1, +1};
         int[] directional_y = {+1, -1, +1, -1};
-        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP) ||
-                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
-    }
-
-    public boolean isColumnThreatened(Board board) {
-        int[] directional_x = {0, 0};
-        int[] directional_y = {+1, -1};
-
-        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK) ||
-                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
+        return isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP) ||
+                isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
     }
 
     public boolean isRowThreatened(Board board) {
+        int[] directional_x = {0, 0};
+        int[] directional_y = {+1, -1};
+
+        return isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK) ||
+                isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
+    }
+
+    public boolean isColumnThreatened(Board board) {
         int[] directional_x = {+1, -1};
         int[] directional_y = {0, 0};
 
-        return !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) ||
-                !isPathClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
+        return isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) ||
+                isPathNotClearFromEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
     }
 
     public boolean isNextSquareHasEnemyPieceType(Square nextSquare, PieceType pieceType) {

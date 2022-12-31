@@ -32,12 +32,14 @@ public class KingMove implements MoveBehavior {
             if (isLocationOnBoard(destinationLocation)) {
                 Board clonedBoard = board.clone();
                 Square nextSquare = clonedBoard.getSpecificSquare(destinationLocation);
+                System.out.println(nextSquare.indices());
                 King clonedKing = currentKing.clone();
                 if (nextSquare.getPiece() == null) {
                     clonedBoard.UpdateBoard(clonedKing.getLocation(), destinationLocation);
+                    clonedBoard.DisplayCurrentPosition();
                     if (!clonedKing.isInCheck(clonedBoard)) {
                         availableLocations.add(destinationLocation);
-                        System.out.println(destinationLocation + " is king on check "+clonedKing.isInCheck(clonedBoard));
+
                     }
 
                 } else if (nextSquare.getPiece() != null &&

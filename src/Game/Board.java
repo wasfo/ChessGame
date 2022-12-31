@@ -16,7 +16,7 @@ public class Board implements Cloneable {
             return this.whiteKing;
     }
     public Square getSpecificSquare(Location location) {
-        return squares[location.getY()][location.getX()];
+        return squares[location.getX()][location.getY()];
     }
 
     public void setPieceOnLocation(Piece piece, Location location) {
@@ -31,10 +31,10 @@ public class Board implements Cloneable {
     }
 
     public void UpdateBoard(Location fromLocation, Location toLocation) {
-        Piece pieceOnLocation = squares[fromLocation.getY()][fromLocation.getX()].getPiece();
+        Piece pieceOnLocation = squares[fromLocation.getX()][fromLocation.getY()].getPiece();
         if (pieceOnLocation != null && isLocationOnBoard(toLocation) ) {
-            squares[toLocation.getY()][toLocation.getX()].setPiece(pieceOnLocation);
-            squares[fromLocation.getY()][fromLocation.getX()].RemovePiece();
+            squares[toLocation.getX()][toLocation.getY()].setPiece(pieceOnLocation);
+            squares[fromLocation.getX()][fromLocation.getY()].RemovePiece();
         }
 
     }
@@ -42,7 +42,7 @@ public class Board implements Cloneable {
         Color color[] = Color.values();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                squares[i][j] = new Square(new Location(j, i), color[(j + i) % 2]);
+                squares[j][i] = new Square(new Location(j, i), color[(j + i) % 2]);
             }
         }
     }
