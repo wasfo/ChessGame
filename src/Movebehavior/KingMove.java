@@ -14,7 +14,7 @@ public class KingMove implements MoveBehavior {
     private final int[] directional_y = {-1, 1, -1, 1, 1, -1, 0, 0};
 
     @Override
-    public ArrayList<Location> CalculateLocations(Location location, Board board) {
+    public ArrayList<Location> CalculateLocations(Location kingLocation, Board board) {
         ArrayList<Location> availableLocations = new ArrayList<>();
         /**
          * to calculate legal locations for the king, I have to check on many things :
@@ -24,17 +24,14 @@ public class KingMove implements MoveBehavior {
          * 4) next location isn't threatened by enemy piece
          * change king location temporarily to check if that location is threatened or not
          */
-        int x = location.getX();
-        int y = location.getY();
-        Square currentSquare = board.getSpecificSquare(location);
+
+        Square currentSquare = board.getSpecificSquare(kingLocation);
         King currentKing = board.getKing(currentSquare.getPiece().getColor());
-
-
         for (int i = 0; i < 8; i++) {
-            Location destinationLocation = new Location(x + this.directional_x[i], y + this.directional_y[i]);
+            Location destinationLocation = new Location(kingLocation.getX() + this.directional_x[i], kingLocation.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
-                Square nextSquare = board.getSpecificSquare(destinationLocation);
                 Board clonedBoard = board.clone();
+                Square nextSquare = clonedBoard.getSpecificSquare(destinationLocation);
                 King clonedKing = currentKing.clone();
                 if (nextSquare.getPiece() == null) {
                     clonedBoard.UpdateBoard(clonedKing.getLocation(), destinationLocation);

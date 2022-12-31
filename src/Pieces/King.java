@@ -28,13 +28,11 @@ public class King extends Piece implements Cloneable {
 
     public boolean isInCheck(Board board) {
 
-        System.out.println("isRowThreatened: " + isRowThreatened(board));
-        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
-        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
-        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
-        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
-
-
+//        System.out.println("isRowThreatened: " + isRowThreatened(board));
+//        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
+//        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
+//        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
+//        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
         return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
                 isAttackedByPawn(board) || isAttackedByKnight(board));
 
@@ -52,7 +50,7 @@ public class King extends Piece implements Cloneable {
 
             if (isLocationOnBoard(tempLocation)) {
                 Square nextSquare = board.getSpecificSquare(tempLocation);
-                if (isNextSquareEmpty(nextSquare)) {
+                if (nextSquare.isEmpty()) {
                     continue;
                 }
                 if (isNextSquareHasEnemyPieceType(nextSquare, PieceType.PAWN)) return true;
@@ -73,7 +71,7 @@ public class King extends Piece implements Cloneable {
 
             if (isLocationOnBoard(tempLocation)) {
                 Square nextSquare = board.getSpecificSquare(tempLocation);
-                if (isNextSquareEmpty(nextSquare)) {
+                if (nextSquare.isEmpty()) {
                     continue;
                 }
                 if (isNextSquareHasEnemyPieceType(nextSquare, PieceType.KNIGHT)) return true;
@@ -94,7 +92,7 @@ public class King extends Piece implements Cloneable {
 
             while (isLocationOnBoard(tempLocation)) {
                 Square nextSquare = board.getSpecificSquare(tempLocation);
-                if (isNextSquareEmpty(nextSquare)) {
+                if (nextSquare.isEmpty()) {
                     tempX += directional_x[i];
                     tempY += directional_y[i];
                     tempLocation = new Location(tempX, tempY);
@@ -149,10 +147,6 @@ public class King extends Piece implements Cloneable {
             return nextSquare.getPiece().getColor() == this.getColor();
         }
         return false;
-    }
-
-    public boolean isNextSquareEmpty(Square nextSquare) {
-        return (nextSquare.getPiece() == null);
     }
 
     @Override

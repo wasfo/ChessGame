@@ -4,9 +4,10 @@ import Pieces.Piece;
 
 public class Square {
 
-   protected Location location;
-   private Color color;
-   private Piece piece = null;
+    protected Location location;
+    private Color color;
+    private Piece piece = null;
+
     public Square(Location location, Color color) {
         this.location = location;
         this.color = color;
@@ -14,17 +15,23 @@ public class Square {
     }
 
     public Square(Location location, Color color, Piece piece) {
-        this(location,color);
+        this(location, color);
         this.piece = piece;
     }
 
     public void setPiece(Piece piece) {
-        piece.setLocation(this.location);
-        this.piece = piece;
+        if (piece != null) {
+            piece.setLocation(this.location);
+            this.piece = piece;
+        }
+        else
+            this.piece = null;
     }
-    public boolean isEmpty(){
+
+    public boolean isEmpty() {
         return this.piece == null;
     }
+
     public void RemovePiece() {
         this.piece = null;
     }
@@ -53,11 +60,13 @@ public class Square {
     public String toString() {
         if (this.piece == null)
             return "";
-        else { return  piece + ""; }
+        else {
+            return piece + "";
+        }
     }
 
     public String indices() {
-            return location.toString();
+        return location.toString();
     }
 
 }

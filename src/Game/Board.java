@@ -33,8 +33,7 @@ public class Board implements Cloneable {
     public void UpdateBoard(Location fromLocation, Location toLocation) {
         Piece pieceOnLocation = squares[fromLocation.getY()][fromLocation.getX()].getPiece();
         if (pieceOnLocation != null && isLocationOnBoard(toLocation) ) {
-            Square destSquare = squares[toLocation.getY()][toLocation.getX()];
-            destSquare.setPiece(pieceOnLocation);
+            squares[toLocation.getY()][toLocation.getX()].setPiece(pieceOnLocation);
             squares[fromLocation.getY()][fromLocation.getX()].RemovePiece();
         }
 
@@ -101,9 +100,7 @@ public class Board implements Cloneable {
     public void DisplayCurrentPosition() {
         for (int j = 7; j >= 0; j--) {
             System.out.print("\n");
-            System.out.println("---------------------------------" +
-                    "-----------------------------------------------------" +
-                    "--------------------------------------------");
+            System.out.println();
             for (int i = 0; i < 8; i++) {
                 System.out.print(squares[j][i].indices());
                 System.out.printf(" %12s ", squares[j][i]);

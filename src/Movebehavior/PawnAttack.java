@@ -12,7 +12,6 @@ import static Movebehavior.Validators.isLocationOnBoard;
 
 public class PawnAttack {
 
-
     public ArrayList<Location> CalculateLocations(Location location, Board board, Color PawnColor) {
         ArrayList<Location> availableLocations = new ArrayList<>();
 
