@@ -39,45 +39,33 @@ public class King extends Piece implements Cloneable {
     }
 
     public boolean isAttackedByPawn(Board board) {
-        Location kingLocation = this.getLocation();
         int[] directional_x = {this.getColor() == Color.BLACK ? +1 : -1, this.getColor() == Color.BLACK ? +1 : -1};
         int[] directional_y = {this.getColor() == Color.BLACK ? -1 : +1, this.getColor() == Color.BLACK ? +1 : -1};
-
-        for (int i = 0; i < 2; i++) {
-            int tempX = kingLocation.getX() + directional_x[i];
-            int tempY = kingLocation.getY() + directional_y[i];
-            Location tempLocation = new Location(tempX, tempY);
-
-            if (isLocationOnBoard(tempLocation)) {
-                Square nextSquare = board.getSpecificSquare(tempLocation);
-                if (nextSquare.isEmpty()) {
-                    continue;
-                }
-                if (isNextSquareHasEnemyPieceType(nextSquare, PieceType.PAWN)) return true;
-            }
-        }
-        return false;
+        return isAttackedBy(board,directional_y,directional_x,PieceType.PAWN);
     }
-
-    public boolean isAttackedByKnight(Board board) {
+    public boolean isAttackedBy(Board board, int[] directional_y, int[] directional_x, PieceType AttackByPiece){
         Location kingLocation = this.getLocation();
-        final int[] directional_x = {2, 2, -2, -2, 1, 1, -1, -1};
-        final int[] directional_y = {-1, 1, -1, 1, 2, -2, 2, -2};
-
         for (int i = 0; i < 8; i++) {
             int tempX = kingLocation.getX() + directional_x[i];
             int tempY = kingLocation.getY() + directional_y[i];
             Location tempLocation = new Location(tempX, tempY);
-
             if (isLocationOnBoard(tempLocation)) {
                 Square nextSquare = board.getSpecificSquare(tempLocation);
                 if (nextSquare.isEmpty()) {
                     continue;
                 }
-                if (isNextSquareHasEnemyPieceType(nextSquare, PieceType.KNIGHT)) return true;
+                if (isNextSquareHasEnemyPieceType(nextSquare, AttackByPiece)) return true;
             }
         }
         return false;
+
+
+    }
+
+    public boolean isAttackedByKnight(Board board) {
+        final int[] directional_x = {2, 2, -2, -2, 1, 1, -1, -1};
+        final int[] directional_y = {-1, 1, -1, 1, 2, -2, 2, -2};
+        return isAttackedBy(board,directional_y,directional_x,PieceType.KNIGHT);
     }
 
     public boolean isPathNotClearFromEnemyPiece(Board board, int[] directional_y, int[] directional_x, PieceType pieceType) {

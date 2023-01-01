@@ -1,5 +1,6 @@
 package Player;
 
+import Game.InputMoveHandler;
 import Game.Location;
 
 public class Move {
@@ -21,6 +22,7 @@ public class Move {
     public void setEndLocation(Location endLocation) {
         this.endLocation = endLocation;
     }
+
 
 
 }

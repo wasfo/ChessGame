@@ -17,27 +17,17 @@ public class BoardController {
         this.board = board;
     }
 
-
     public void isCheck(Board board) {
 
 
     }
-
-    public void isCheckMate(Board board) {
-
-    }
-
-    public boolean isLocationValid(Location location) {
-        return location.getX() >= 0 && location.getX() < 8 && location.getY() >= 0 && location.getY() < 8;
-    }
-
     public boolean isNotSameColor(Color first, Color second) { // please ahmad check this function
         return first != second;
     }
 
     public boolean isLegalMove(Move currentMove, Player currentPlayer) {
         //check on location validity
-        if (!isLocationValid(currentMove.getStartLocation()) || !isLocationValid(currentMove.getEndLocation())) {
+        if (currentMove.getEndLocation() == null || currentMove.getStartLocation() == null) {
             System.out.println("Invalid move");
             return false;
         }
@@ -46,8 +36,7 @@ public class BoardController {
         Square targetSquare = board.getSpecificSquare(currentMove.getEndLocation());
 
         // please make this cleaner
-        if (startSquare.getPiece() == null
-                || isNotSameColor(startSquare.getPiece().getColor(), currentPlayer.getColor())) {
+        if (startSquare.getPiece() == null || isNotSameColor(startSquare.getPiece().getColor(), currentPlayer.getColor())) {
             return false;
         }
 
@@ -59,7 +48,6 @@ public class BoardController {
             System.out.println("no moves allowed");
             return false;
         }
-
         if (!legalMoveLocations.contains(currentMove.getEndLocation())){
             System.out.println("we cant move " +  startPiece + " to this " + currentMove.getEndLocation());
             return false;
