@@ -1,24 +1,17 @@
 package Game;
+
 import Pieces.*;
 import Player.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ChessGame {
-    private  Board chessBoard = new Board();
-    BoardController boardController= new BoardController(this.chessBoard);
+    private Board chessBoard = new Board();
+    BoardController boardController = new BoardController(this.chessBoard);
     private final List<Move> movesHistory = new ArrayList<Move>();
     private Player whitePlayer, blackPlayer;
-
-    public void SwitchTurn(Player currentPlayer){
-        if(currentPlayer == this.whitePlayer)
-            currentPlayer = blackPlayer;
-        else
-            currentPlayer = whitePlayer;
-    }
-
-
 
     public void start() {
         whitePlayer = new Player(chessBoard.getKing(Color.WHITE), Color.WHITE);
@@ -36,22 +29,27 @@ public class ChessGame {
 
         System.out.println();
         for (int i = 0; i < 50; i++) {
-         Move currentMove =   Player.MakeMove();
+            Player currentPlayer = (i % 2 == 0 ? whitePlayer : blackPlayer);
+            Move currentMove = (i % 2 == 0 ? whitePlayer : blackPlayer).MakeMove();
 
-            while (!boardController.isLegalMove(currentMove,)){
+            while (!boardController.isLegalMove(currentMove,currentPlayer)) {
+                currentMove = (i % 2 == 0 ? whitePlayer : blackPlayer).MakeMove();
+                System.out.println(currentMove);
                 System.out.println("Incorrect move, please re-enter: ");
             }
 
             chessBoard.UpdateBoard(currentMove.getStartLocation(), currentMove.getEndLocation());
             chessBoard.DisplayCurrentPosition();
         }
-        
+
 
     }
 
     public static void main(String[] args) {
 
-          new ChessGame().start();
+       // new ChessGame().start();
+
+        InputMoveHandler.ProcessMove(InputMoveHandler.EnterMove());
     }
 
 }

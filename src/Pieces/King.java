@@ -45,7 +45,7 @@ public class King extends Piece implements Cloneable {
     }
     public boolean isAttackedBy(Board board, int[] directional_y, int[] directional_x, PieceType AttackByPiece){
         Location kingLocation = this.getLocation();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < directional_x.length; i++) {
             int tempX = kingLocation.getX() + directional_x[i];
             int tempY = kingLocation.getY() + directional_y[i];
             Location tempLocation = new Location(tempX, tempY);

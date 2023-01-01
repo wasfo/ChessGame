@@ -46,6 +46,8 @@ public class InputMoveHandler {
         y_coordinate = moveArguments[2].charAt(1);
 
         Location endLocation = new Location(x_coordinate, y_coordinate);
+
+        System.out.println(startLocation + " " + endLocation);
         return new Move(startLocation, endLocation);
     }
 
