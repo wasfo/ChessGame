@@ -12,11 +12,11 @@ import static Movebehavior.Validators.isLocationOnBoard;
 
 public class PawnAttack {
 
-    public ArrayList<Location> CalculateLocations(Location location, Board board, Color PawnColor) {
+    public ArrayList<Location> calculateLocations(Location location, Board board, Color pawnColor) {
         ArrayList<Location> availableLocations = new ArrayList<>();
 
-        int[] directional_x = {PawnColor == Color.BLACK ? +1 : -1, PawnColor == Color.BLACK ? +1 : -1};
-        int[] directional_y = {PawnColor == Color.BLACK ? -1 : +1, PawnColor == Color.BLACK ? +1 : -1};
+        int[] directional_x = {pawnColor == Color.BLACK ? +1 : -1, pawnColor == Color.BLACK ? +1 : -1};
+        int[] directional_y = {pawnColor == Color.BLACK ? -1 : +1, pawnColor == Color.BLACK ? +1 : -1};
 
         for (int i = 0; i < 2; i++) {
             int tempX = location.getX() + directional_x[i];
@@ -27,8 +27,8 @@ public class PawnAttack {
                 if (nextSquare.isEmpty()) {
                     continue;
                 }
-                if (nextSquare.getPiece().getColor() != PawnColor &&
-                        nextSquare.getPiece().getType()!= PieceType.KING) {
+                if (nextSquare.getPiece().getColor() != pawnColor &&
+                        nextSquare.getPiece().getType() != PieceType.KING) {
                     availableLocations.add(tempLocation);
                 }
             }

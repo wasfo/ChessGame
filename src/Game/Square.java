@@ -32,7 +32,7 @@ public class Square {
         return this.piece == null;
     }
 
-    public void RemovePiece() {
+    public void removePiece() {
         this.piece = null;
     }
 

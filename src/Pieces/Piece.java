@@ -9,7 +9,7 @@ public abstract class Piece {
     protected PieceType type;
     protected Color color;
     protected Location location;
-    public MoveBehavior AddMoveBehavior(MoveBehavior moveBehavior) {
+    public MoveBehavior addMoveBehavior(MoveBehavior moveBehavior) {
         return moveBehavior;
     }
 
@@ -47,7 +47,7 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public abstract ArrayList<Location> CalculateLegalMoveLocations(final Board board, Player player);
+    public abstract ArrayList<Location> calculateLegalMoveLocations(final Board board, Player player);
 
     @Override
     public String toString() {

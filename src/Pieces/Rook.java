@@ -12,14 +12,14 @@ public class Rook extends Piece{
         super(PieceType.ROOK, color);
     }
     @Override
-    public ArrayList<Location> CalculateLegalMoveLocations(Board board, Player player) {
+    public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         ArrayList<Location> availableLocations = new ArrayList<>();
 
         MoveBehavior Horizental = new HorizentalMove();
         MoveBehavior Vertical = new VerticalMove();
 
-        availableLocations.addAll(Horizental.CalculateLocations(this.getLocation(), board));
-        availableLocations.addAll(Vertical.CalculateLocations(this.getLocation(), board));
+        availableLocations.addAll(Horizental.calculateLocations(this.getLocation(), board));
+        availableLocations.addAll(Vertical.calculateLocations(this.getLocation(), board));
 
         return availableLocations;
     }

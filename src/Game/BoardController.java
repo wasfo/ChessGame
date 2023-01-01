@@ -41,9 +41,8 @@ public class BoardController {
         }
 
         Piece startPiece = startSquare.getPiece();
-
         // no moves allowed
-        ArrayList<Location> legalMoveLocations = startPiece.CalculateLegalMoveLocations(board, currentPlayer);
+        ArrayList<Location> legalMoveLocations = startPiece.calculateLegalMoveLocations(this.board, currentPlayer);
         if (legalMoveLocations.isEmpty()) {
             System.out.println("no moves allowed");
             return false;
@@ -52,6 +51,7 @@ public class BoardController {
             System.out.println("we cant move " +  startPiece + " to this " + currentMove.getEndLocation());
             return false;
         }
+
 
         /*
         to check if the piece is pinned or not, we simply do the following:

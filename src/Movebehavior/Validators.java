@@ -2,8 +2,7 @@ package Movebehavior;
 
 import Game.Color;
 import Game.Location;
-import Game.Square;
-import Pieces.PieceType;
+
 
 public class Validators {
 

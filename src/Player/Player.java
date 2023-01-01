@@ -2,7 +2,6 @@ package Player;
 
 import Game.Color;
 import Game.InputMoveHandler;
-import Game.Location;
 import Pieces.King;
 
 public class Player {
@@ -13,7 +12,6 @@ public class Player {
         this.playerKing = playerKing;
         this.color = color;
     }
-
     public King getPlayerKing() {
         return playerKing;
     }
@@ -30,13 +28,11 @@ public class Player {
         this.color = color;
     }
 
-
-    public Move MakeMove() {
-        String enteredMove = InputMoveHandler.EnterMove();
+    public Move makeMove() {
+        String enteredMove = InputMoveHandler.enterMove();
         if (InputMoveHandler.isEnteredMoveValid(enteredMove))
-            return InputMoveHandler.ProcessMove(enteredMove);
-        else
-            return new Move(null, null);
+            return InputMoveHandler.processMove(enteredMove);
+        return new Move(null, null);
     }
 
 }

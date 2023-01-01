@@ -12,7 +12,7 @@ public class Pawn extends Piece{
         super(PieceType.PAWN, color);
     }
     @Override
-    public ArrayList<Location> CalculateLegalMoveLocations(Board board, Player player) {
+    public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         return null;
     }
 }

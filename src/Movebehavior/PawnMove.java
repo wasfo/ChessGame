@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class PawnMove implements MoveBehavior{
 
     @Override
-    public ArrayList<Location> CalculateLocations(Location location, Board board) {
+    public ArrayList<Location> calculateLocations(Location location, Board board) {
         return null;
     }
 }

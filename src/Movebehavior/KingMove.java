@@ -4,6 +4,7 @@ import Game.Board;
 import Game.Location;
 import Game.Square;
 import Pieces.King;
+import Pieces.Piece;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class KingMove implements MoveBehavior {
     private final int[] directional_y = {-1, 1, -1, 1, 1, -1, 0, 0};
 
     @Override
-    public ArrayList<Location> CalculateLocations(Location kingLocation, Board board) {
+    public ArrayList<Location> calculateLocations(Location kingLocation, Board board) {
         ArrayList<Location> availableLocations = new ArrayList<>();
         /**
          * to calculate legal locations for the king, I have to check on many things :
@@ -24,33 +25,27 @@ public class KingMove implements MoveBehavior {
          * 4) next location isn't threatened by enemy piece
          * change king location temporarily to check if that location is threatened or not
          */
-
         Square currentSquare = board.getSpecificSquare(kingLocation);
         King currentKing = board.getKing(currentSquare.getPiece().getColor());
         for (int i = 0; i < 8; i++) {
             Location destinationLocation = new Location(kingLocation.getX() + this.directional_x[i], kingLocation.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
-                Board clonedBoard = board.clone();
-                Square nextSquare = clonedBoard.getSpecificSquare(destinationLocation);
-                System.out.println(nextSquare.indices());
-                King clonedKing = currentKing.clone();
+                Square nextSquare = board.getSpecificSquare(destinationLocation);
                 if (nextSquare.getPiece() == null) {
-                    clonedBoard.UpdateBoard(clonedKing.getLocation(), destinationLocation);
-                    clonedBoard.DisplayCurrentPosition();
-                    if (!clonedKing.isInCheck(clonedBoard)) {
+                    board.updateBoard(currentKing.getLocation(), destinationLocation);
+                    if (!currentKing.isInCheck(board)) {
                         availableLocations.add(destinationLocation);
-
                     }
-
-                } else if (nextSquare.getPiece() != null &&
-                        nextSquare.getPiece().getColor() != currentKing.getColor()) {
-
-                    clonedBoard.getSpecificSquare(destinationLocation).RemovePiece();
-                    clonedBoard.UpdateBoard(clonedKing.getLocation(), destinationLocation);
-                    // pretend that the king ate the opponent piece, will the king be in check?
-                    if (!clonedKing.isInCheck(clonedBoard)) {
-                        availableLocations.add(destinationLocation);}
-
+                    board.updateBoard(destinationLocation, kingLocation);
+                } else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
+                    Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
+                    board.getSpecificSquare(destinationLocation).removePiece();
+                    board.updateBoard(currentKing.getLocation(), destinationLocation);
+                    if (!currentKing.isInCheck(board)) {
+                        availableLocations.add(destinationLocation);
+                    }
+                    board.updateBoard(destinationLocation, kingLocation);
+                    board.setPieceOnLocation(removedPiece, destinationLocation);
                 }
             }
         }

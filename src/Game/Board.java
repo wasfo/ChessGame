@@ -30,11 +30,11 @@ public class Board implements Cloneable {
         createEmptyBoard();
     }
 
-    public void UpdateBoard(Location fromLocation, Location toLocation) {
+    public void updateBoard(Location fromLocation, Location toLocation) {
         Piece pieceOnLocation = squares[fromLocation.getX()][fromLocation.getY()].getPiece();
         if (pieceOnLocation != null && isLocationOnBoard(toLocation) ) {
             squares[toLocation.getX()][toLocation.getY()].setPiece(pieceOnLocation);
-            squares[fromLocation.getX()][fromLocation.getY()].RemovePiece();
+            squares[fromLocation.getX()][fromLocation.getY()].removePiece();
         }
 
     }
@@ -48,18 +48,18 @@ public class Board implements Cloneable {
     }
 
 
-    public void ResetBoard() {
+    public void resetBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                this.squares[i][j].RemovePiece();
+                this.squares[i][j].removePiece();
             }
         }
 
-        SetupBoard();
+        setupBoard();
     }
 
 
-    public void SetupBoard() {
+    public void setupBoard() {
         for (int i = 0; i < 8; i++) {
             squares[1][i].setPiece(new Pawn(Color.WHITE));
         }
@@ -97,7 +97,7 @@ public class Board implements Cloneable {
 
     }
 
-    public void DisplayCurrentPosition() {
+    public void displayCurrentPosition() {
         for (int j = 7; j >= 0; j--) {
             System.out.print("\n");
             System.out.println();
