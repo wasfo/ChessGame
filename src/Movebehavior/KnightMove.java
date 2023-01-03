@@ -16,11 +16,11 @@ public class KnightMove implements MoveBehavior {
     private final int[] directional_y = {-1, 1, -1, 1, 2, -2, 2, -2};
 
     @Override
-    public ArrayList<Location> calculateLocations(Location location, Board board) {
+    public ArrayList<Location> calculatePossibleLocations(Location knightLocation, Board board) {
         ArrayList<Location> availableLocations = new ArrayList<>();
-        Square currentSquare = board.getSpecificSquare(location);
+        Square currentSquare = board.getSpecificSquare(knightLocation);
         for (int i = 0; i < 8; i++) {
-            Location destinationLocation = new Location(location.getX() + this.directional_x[i], location.getY() + this.directional_y[i]);
+            Location destinationLocation = new Location(knightLocation.getX() + this.directional_x[i], knightLocation.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
                 Square destSquare = board.getSpecificSquare(destinationLocation);
                 if(destSquare.getPiece()!= null) {

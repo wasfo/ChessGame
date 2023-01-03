@@ -9,16 +9,16 @@ public class InputMoveHandler {
     private static final HashMap<Character, Integer> chars_to_Int = mapCharsToInt();
 
     public static HashMap<Character, Integer> mapCharsToInt() {
-        HashMap<Character, Integer> Chars_to_Int = new HashMap<>();
-        Chars_to_Int.put('a', 0);
-        Chars_to_Int.put('b', 1);
-        Chars_to_Int.put('c', 2);
-        Chars_to_Int.put('d', 3);
-        Chars_to_Int.put('e', 4);
-        Chars_to_Int.put('f', 5);
-        Chars_to_Int.put('g', 6);
-        Chars_to_Int.put('h', 7);
-        return Chars_to_Int;
+        HashMap<Character, Integer> chars_to_int = new HashMap<>();
+        chars_to_int.put('a', 0);
+        chars_to_int.put('b', 1);
+        chars_to_int.put('c', 2);
+        chars_to_int.put('d', 3);
+        chars_to_int.put('e', 4);
+        chars_to_int.put('f', 5);
+        chars_to_int.put('g', 6);
+        chars_to_int.put('h', 7);
+        return chars_to_int;
     }
 
 

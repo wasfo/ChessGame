@@ -35,4 +35,8 @@ public class Player {
         return new Move(null, null);
     }
 
+    @Override
+    public String toString() {
+        return color +" PLAYER";
+    }
 }

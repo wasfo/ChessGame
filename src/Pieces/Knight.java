@@ -16,7 +16,7 @@ public class Knight extends Piece {
         ArrayList<Location> availableLocations = new ArrayList<>();
         Location currentLocation = this.getLocation();
         MoveBehavior knightMove = addMoveBehavior(new KnightMove());
-        availableLocations.addAll(knightMove.calculateLocations(currentLocation, board));
+        availableLocations.addAll(knightMove.calculatePossibleLocations(currentLocation, board));
         King king = player.getPlayerKing();
         if (!king.isInCheck(board)) { // if the king is not under check
             return availableLocations;

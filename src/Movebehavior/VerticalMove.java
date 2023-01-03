@@ -10,7 +10,7 @@ public class VerticalMove implements MoveBehavior{
     private final int[] directional_y = {+1, -1};
 
     @Override
-    public ArrayList<Location> calculateLocations(Location location, Board board) {
+    public ArrayList<Location> calculatePossibleLocations(Location location, Board board) {
         return MoveDirector.DirectMove(location,board, this.directional_x, this.directional_y);
     }
 }

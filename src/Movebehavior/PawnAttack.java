@@ -13,7 +13,7 @@ import static Movebehavior.Validators.isLocationOnBoard;
 public class PawnAttack {
 
     public ArrayList<Location> calculateLocations(Location location, Board board, Color pawnColor) {
-        ArrayList<Location> availableLocations = new ArrayList<>();
+        ArrayList<Location> possibleLocations = new ArrayList<>();
 
         int[] directional_x = {pawnColor == Color.BLACK ? +1 : -1, pawnColor == Color.BLACK ? +1 : -1};
         int[] directional_y = {pawnColor == Color.BLACK ? -1 : +1, pawnColor == Color.BLACK ? +1 : -1};
@@ -29,10 +29,10 @@ public class PawnAttack {
                 }
                 if (nextSquare.getPiece().getColor() != pawnColor &&
                         nextSquare.getPiece().getType() != PieceType.KING) {
-                    availableLocations.add(tempLocation);
+                    possibleLocations.add(tempLocation);
                 }
             }
         }
-        return availableLocations;
+        return possibleLocations;
     }
 }

@@ -12,8 +12,7 @@ public class Board implements Cloneable {
     public King getKing(Color color) {
         if (color == Color.BLACK)
             return this.blackKing;
-        else
-            return this.whiteKing;
+        return this.whiteKing;
     }
     public Square getSpecificSquare(Location location) {
         return squares[location.getX()][location.getY()];
@@ -39,7 +38,7 @@ public class Board implements Cloneable {
 
     }
     private void createEmptyBoard() {
-        Color color[] = Color.values();
+        Color[] color = Color.values();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 squares[j][i] = new Square(new Location(j, i), color[(j + i) % 2]);

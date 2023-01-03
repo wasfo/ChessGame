@@ -3,17 +3,15 @@ package Game;
 import Pieces.Piece;
 import Player.Move;
 import Player.Player;
-
 import java.util.ArrayList;
-
-public class BoardController {
+public class BoardManager {
     Board board;
 
     public Board getBoard() {
         return this.board;
     }
 
-    public BoardController(Board board) {
+    public BoardManager(Board board) {
         this.board = board;
     }
 

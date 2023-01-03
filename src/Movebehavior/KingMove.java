@@ -15,7 +15,7 @@ public class KingMove implements MoveBehavior {
     private final int[] directional_y = {-1, 1, -1, 1, 1, -1, 0, 0};
 
     @Override
-    public ArrayList<Location> calculateLocations(Location kingLocation, Board board) {
+    public ArrayList<Location> calculatePossibleLocations(Location kingLocation, Board board) {
         ArrayList<Location> availableLocations = new ArrayList<>();
         /**
          * to calculate legal locations for the king, I have to check on many things :

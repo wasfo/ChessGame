@@ -24,9 +24,9 @@ public class Queen extends Piece {
         MoveBehavior Horizental = new HorizentalMove();
         MoveBehavior Vertical = new VerticalMove();
 
-        availableLocations.addAll(Diagonal.calculateLocations(this.getLocation(), board));
-        availableLocations.addAll(Horizental.calculateLocations(this.getLocation(), board));
-        availableLocations.addAll(Vertical.calculateLocations(this.getLocation(), board));
+        availableLocations.addAll(Diagonal.calculatePossibleLocations(this.getLocation(), board));
+        availableLocations.addAll(Horizental.calculatePossibleLocations(this.getLocation(), board));
+        availableLocations.addAll(Vertical.calculatePossibleLocations(this.getLocation(), board));
 
         return availableLocations;
     }
