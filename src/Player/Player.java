@@ -5,12 +5,21 @@ import Game.InputMoveHandler;
 import Pieces.King;
 
 public class Player {
-    King playerKing;
-    Color color;
+    private King playerKing;
+    private boolean isChecked = false;
+    private Color color;
 
     public Player(King playerKing, Color color) {
         this.playerKing = playerKing;
         this.color = color;
+    }
+
+    public boolean isChecked() {
+        return this.isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.isChecked = checked;
     }
     public King getPlayerKing() {
         return playerKing;
@@ -37,6 +46,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return color +" PLAYER";
+        return color + " PLAYER";
     }
 }

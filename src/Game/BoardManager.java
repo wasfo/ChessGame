@@ -13,6 +13,7 @@ public class BoardManager {
 
     public BoardManager(Board board) {
         this.board = board;
+        board.setupBoard();
     }
 
     public void isCheck(Board board) {
