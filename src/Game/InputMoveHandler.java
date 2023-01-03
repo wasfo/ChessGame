@@ -24,12 +24,10 @@ public class InputMoveHandler {
 
     public static String enterMove() {
         Scanner scanner = new Scanner(System.in);
-        String enteredMove = scanner.nextLine();
-        return enteredMove;
-            //
+        return scanner.nextLine();
+
     }
     public static boolean isEnteredMoveValid(String enteredMove){
-        //
         String validInputRegex = "\\bmove\\s[a-h][1-8]\\s[a-h][1-8]";
         return enteredMove.matches(validInputRegex);
     }

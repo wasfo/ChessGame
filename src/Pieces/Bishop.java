@@ -14,9 +14,9 @@ public class Bishop extends Piece{
     }
     @Override
     public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
-        ArrayList<Location> availableLocations = new ArrayList<>();
+        ArrayList<Location> possibleLocations = new ArrayList<>();
         MoveBehavior Diagonal = new DiagonalMove();
-        availableLocations.addAll(Diagonal.calculatePossibleLocations(this.getLocation(), board));
-        return availableLocations;
+        possibleLocations.addAll(Diagonal.calculatePossibleLocations(this.getLocation(), board));
+        return possibleLocations;
     }
 }

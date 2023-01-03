@@ -42,7 +42,7 @@ public class BoardManager {
         // no moves allowed
         ArrayList<Location> legalMoveLocations = startPiece.calculateLegalMoveLocations(this.board, currentPlayer);
         if (legalMoveLocations.isEmpty()) {
-            System.out.println("no moves allowed");
+            System.out.println("no moves allowed for  "+ startPiece);
             return false;
         }
         if (!legalMoveLocations.contains(currentMove.getEndLocation())){

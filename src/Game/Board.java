@@ -53,7 +53,6 @@ public class Board implements Cloneable {
                 this.squares[i][j].removePiece();
             }
         }
-
         setupBoard();
     }
 
