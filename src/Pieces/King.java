@@ -33,11 +33,11 @@ public class King extends Piece implements Cloneable {
 
     public boolean isInCheck(Board board) {
 
-        System.out.println("isRowThreatened: " + isRowThreatened(board));
-        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
-        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
-        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
-        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
+//        System.out.println("isRowThreatened: " + isRowThreatened(board));
+//        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
+//        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
+//        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
+//        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
 
         return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
                 isAttackedByPawn(board) || isAttackedByKnight(board));

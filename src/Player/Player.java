@@ -1,9 +1,7 @@
 package Player;
-
 import Game.Color;
 import Game.InputMoveHandler;
 import Pieces.King;
-
 public class Player {
     private King playerKing;
     private boolean isChecked = false;

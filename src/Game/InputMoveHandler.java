@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class InputMoveHandler {
-    private static final HashMap<Character, Integer> chars_to_Int = mapCharsToInt();
+    public static final HashMap < Character, Integer > chars_to_Int = mapCharsToInt();
+    public static char[] map = {'a','b','c','d','e','f','g','h'};
+
 
     public static HashMap<Character, Integer> mapCharsToInt() {
         HashMap<Character, Integer> chars_to_int = new HashMap<>();
@@ -20,6 +22,7 @@ public class InputMoveHandler {
         chars_to_int.put('h', 7);
         return chars_to_int;
     }
+
 
 
     public static String enterMove() {
@@ -38,10 +41,11 @@ public class InputMoveHandler {
         int x_coordinate = chars_to_Int.get(moveArguments[1].charAt(0));
         int y_coordinate =  Integer.parseInt(String.valueOf(moveArguments[1].charAt(1))) ;
         System.out.println(y_coordinate);
-        Location startLocation = new Location(x_coordinate , y_coordinate - 1);
+        Location startLocation = new Location( y_coordinate - 1, x_coordinate);
         x_coordinate = chars_to_Int.get(moveArguments[2].charAt(0));
         y_coordinate = Integer.parseInt(String.valueOf(moveArguments[2].charAt(1))) ;
-        Location endLocation = new Location(x_coordinate , y_coordinate - 1);
+
+        Location endLocation = new Location( y_coordinate - 1, x_coordinate);
         System.out.println(startLocation + " " + endLocation);
         return new Move(startLocation, endLocation);
     }

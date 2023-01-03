@@ -2,7 +2,7 @@ package Game;
 
 import Pieces.Piece;
 
-public class Square {
+public class Square implements Cloneable {
 
     protected Location location;
     private Color color;
@@ -69,4 +69,17 @@ public class Square {
         return location.toString();
     }
 
+
+    @Override
+    public Square clone() {
+        try {
+            Square clone = (Square) super.clone();
+            clone.setPiece(getPiece());
+            clone.setLocation(getLocation());
+            clone.setColor(getColor());
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

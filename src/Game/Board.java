@@ -1,17 +1,17 @@
 package Game;
 import Pieces.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static Movebehavior.Validators.*;
-
 public class Board implements Cloneable {
-    private final Square[][] squares;
+    private Square[][] squares;
     private ArrayList<Piece>  blackPieces;
     private  ArrayList<Piece>  whitePieces;
     private final King whiteKing;
     private final King blackKing;
+
+
 
     public ArrayList<Piece> getBlackPieces() {
         return blackPieces;
@@ -29,6 +29,14 @@ public class Board implements Cloneable {
         this.whitePieces = whitePieces;
     }
 
+    private Board(Square[][] squares, ArrayList<Piece> blackPieces, ArrayList<Piece> whitePieces, King whiteKing, King blackKing) {
+        this.squares = squares;
+        this.blackPieces = blackPieces;
+        this.whitePieces = whitePieces;
+        this.whiteKing = whiteKing;
+        this.blackKing = blackKing;
+    }
+
     public King getKing(Color color) {
         if (color == Color.BLACK)
             return this.blackKing;
@@ -37,15 +45,15 @@ public class Board implements Cloneable {
     public Square getSpecificSquare(Location location) {
         return squares[location.getX()][location.getY()];
     }
-
     public void setPieceOnLocation(Piece piece, Location location) {
         getSpecificSquare(location).setPiece(piece);
     }
-
     public Board() {
         squares = new Square[8][8];
         whiteKing = new King(Color.WHITE);
         blackKing = new King(Color.BLACK);
+        whitePieces = new ArrayList<>();
+        blackPieces = new ArrayList<>();
         createEmptyBoard();
     }
 
@@ -65,7 +73,6 @@ public class Board implements Cloneable {
         }
     }
 
-
     public void resetBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -74,7 +81,6 @@ public class Board implements Cloneable {
         }
         setupBoard();
     }
-
 
     public void setupBoard() {
         setPawnsOnBoard();
@@ -152,24 +158,55 @@ public class Board implements Cloneable {
     }
 
 
-
     public void displayBoard() {
+
         for (int j = 7; j >= 0; j--) {
             System.out.print("\n");
             System.out.println();
             for (int i = 0; i < 8; i++) {
-                System.out.print(squares[j][i].indices());
+                System.out.print(InputMoveHandler.map[i] + ""+ (j + 1));
                 System.out.printf(" %12s ", squares[j][i]);
 
             }
         }
     }
 
+    public void setSquares(Square[][] squares) {
+        this.squares = squares;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return Arrays.equals(squares, board.squares) && Objects.equals(blackPieces, board.blackPieces) && Objects.equals(whitePieces, board.whitePieces) && Objects.equals(whiteKing, board.whiteKing) && Objects.equals(blackKing, board.blackKing);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(blackPieces, whitePieces, whiteKing, blackKing);
+        result = 31 * result + Arrays.hashCode(squares);
+        return result;
+    }
+    public Square[][] copy(Square[][] src) {
+        if (src == null) {
+            return null;
+        }
+
+        Square[][] copy = new Square[src.length][src.length];
+        for (int i = 0; i < src.length; i++) {
+            copy[i] = src[i].clone();
+        }
+        return copy;
+    }
+
     @Override
     public Board clone() {
         try {
             Board clone = (Board) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            Square [][]CopiedSquares = copy(squares);
+            clone.setSquares(CopiedSquares);
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
