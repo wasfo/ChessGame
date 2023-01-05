@@ -1,5 +1,4 @@
 package Pieces;
-
 import Game.Board;
 import Game.Color;
 import Game.Location;
@@ -18,6 +17,8 @@ public class King extends Piece implements Cloneable {
         super(PieceType.KING, color);
     }
 
+
+
     @Override
     public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         MoveBehavior kingMove = new KingMove();
@@ -32,13 +33,6 @@ public class King extends Piece implements Cloneable {
     }
 
     public boolean isInCheck(Board board) {
-
-//        System.out.println("isRowThreatened: " + isRowThreatened(board));
-//        System.out.println("isColumnThreatened: " + isColumnThreatened(board));
-//        System.out.println("isDiagonalThreatened: " + isDiagonalThreatened(board));
-//        System.out.println("isAttackedByPawn: " + isAttackedByPawn(board));
-//        System.out.println("isAttackedByKnight: " + isAttackedByKnight(board));
-
         return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
                 isAttackedByPawn(board) || isAttackedByKnight(board));
     }
@@ -72,6 +66,8 @@ public class King extends Piece implements Cloneable {
     }
 
     public boolean isPathAttackedByEnemyPiece(Board board, int[] directional_y, int[] directional_x, PieceType pieceType) {
+        if(this.getLocation() == null)
+            return false;
         Location kingLocation = this.getLocation();
         for (int i = 0; i < directional_x.length; i++) {
             int tempX = kingLocation.getX() + directional_x[i];
@@ -138,10 +134,6 @@ public class King extends Piece implements Cloneable {
 
     @Override
     public King clone() {
-        try {
-            return (King) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+        return (King) super.clone();
     }
 }

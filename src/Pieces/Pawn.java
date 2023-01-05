@@ -1,9 +1,7 @@
 package Pieces;
-
 import Game.Board;
 import Game.Color;
 import Game.Location;
-import Movebehavior.DiagonalMove;
 import Movebehavior.MoveBehavior;
 import Movebehavior.PawnAttack;
 import Movebehavior.PawnMove;

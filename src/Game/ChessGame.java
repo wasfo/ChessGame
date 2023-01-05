@@ -1,50 +1,42 @@
 package Game;
-import Pieces.*;
+import Pieces.King;
+import Pieces.Knight;
+import Pieces.Pawn;
 import Player.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class ChessGame {
     private final Board chessBoard = new Board();
     BoardManager boardManager = new BoardManager(this.chessBoard);
     private final List<Move> movesHistory = new ArrayList<Move>();
-    private Player whitePlayer, blackPlayer;
 
     public void start() {
-        whitePlayer = new Player(chessBoard.getKing(Color.WHITE), Color.WHITE);
-        blackPlayer = new Player(chessBoard.getKing(Color.BLACK), Color.BLACK);
 
-        Board newBoard = new Board();
+        chessBoard.whiteKing = new King(Color.WHITE);
+        chessBoard.blackKing = new King(Color.BLACK);
 
-        newBoard.setPieceOnLocation(new Rook(Color.BLACK) , new Location(6,5));
-        newBoard.setPieceOnLocation(new Rook(Color.BLACK) , new Location(7,6));
-    //    newBoard.setKingsOnBoard();
-        King whiteKing = new King(Color.WHITE);
+        Player whitePlayer = new Player(chessBoard.whiteKing, Color.WHITE);
+        Player blackPlayer = new Player(chessBoard.blackKing, Color.BLACK);
+        chessBoard.setRooksOnBoard();
 
-        newBoard.setPieceOnLocation(whiteKing, new Location(3,7));
-
-        newBoard.updateBoard(new Location(0,0), new Location(1,1));
-
-       // newBoard.updateBoard(new Location(6,5), new Location(6,7));
+        chessBoard.whiteKing.setLocation(new Location(7,5));
+        chessBoard.setPieceOnLocation(chessBoard.whiteKing, new Location( 6 ,5));
+        System.out.println(chessBoard.whiteKing.calculateLegalMoveLocations(chessBoard,whitePlayer));
+       System.out.println( chessBoard.blackKing.isInCheck(chessBoard));
 
 
 
+        chessBoard.displayBoard();
+
+//        System.out.println("chessBoard");
+//        chessBoard.displayBoard();
+//        System.out.println();
+//        System.out.println("clonedBoard");
+//        clonedBoard.displayBoard();
+
+      //  System.out.println(chessBoard.getBlackPieces());
 
 
-        newBoard.displayBoard();
-        System.out.println();
-
-        BoardManager boardManager = new BoardManager(newBoard);
-
-        Player whitePlayer1 = new Player(whiteKing,Color.WHITE);
-
-        System.out.println(whitePlayer1.getPlayerKing().isCheckMated(newBoard,whitePlayer1));
-
-        Move newMove = whitePlayer1.makeMove();
-        System.out.println("is legal move: " + boardManager.isLegalMove(newMove,whitePlayer1));
-       // boardManager.ApplyMove(newMove,whitePlayer1);
-        newBoard.displayBoard();
 
 //        for (int i = 0; i < 50; i++) {
 //            Player currentPlayer = (i % 2 == 0 ? whitePlayer : blackPlayer);
@@ -65,7 +57,8 @@ public class ChessGame {
     }
 
     public static void main(String[] args) {
-        new ChessGame().start();
+       new ChessGame().start();
+
     }
 
 }

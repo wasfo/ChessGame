@@ -16,7 +16,7 @@ public class KingMove implements MoveBehavior {
 
     @Override
     public ArrayList<Location> calculatePossibleLocations(Location kingOriginalLocation, Board board) {
-        ArrayList<Location> availableLocations = new ArrayList<>();
+        ArrayList<Location> possibleLocations = new ArrayList<>();
         /**
          * to calculate legal locations for the king, I have to check on many things :
          * 1) next location is on board
@@ -25,17 +25,19 @@ public class KingMove implements MoveBehavior {
          * 4) next location isn't threatened by enemy piece
          * change king location temporarily to check if that location is threatened or not
          */
+
         Square currentSquare = board.getSpecificSquare(kingOriginalLocation);
-        King currentKing = board.getKing(currentSquare.getPiece().getColor());
+        King currentKing = board.getKing(currentSquare.getPiece().getColor()).clone();
+
+        currentKing.setLocation(kingOriginalLocation);
         for (int i = 0; i < 8; i++) {
             Location destinationLocation = new Location(kingOriginalLocation.getX() + this.directional_x[i], kingOriginalLocation.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
                 Square nextSquare = board.getSpecificSquare(destinationLocation);
                 if (nextSquare.getPiece() == null) {
-                    System.out.println(kingOriginalLocation);
                     board.updateBoard(currentKing.getLocation(), destinationLocation);
                     if (!currentKing.isInCheck(board)) {
-                        availableLocations.add(destinationLocation);
+                        possibleLocations.add(destinationLocation);
                     }
                     board.updateBoard(destinationLocation, kingOriginalLocation);
                 } else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
@@ -43,13 +45,13 @@ public class KingMove implements MoveBehavior {
                     board.getSpecificSquare(destinationLocation).removePiece();
                     board.updateBoard(currentKing.getLocation(), destinationLocation);
                     if (!currentKing.isInCheck(board)) {
-                        availableLocations.add(destinationLocation);
+                        possibleLocations.add(destinationLocation);
                     }
                     board.updateBoard(destinationLocation, kingOriginalLocation);
                     board.setPieceOnLocation(removedPiece, destinationLocation);
                 }
             }
         }
-        return availableLocations;
+        return possibleLocations;
     }
 }

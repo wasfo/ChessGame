@@ -1,6 +1,8 @@
 package Game;
 
-public class Location {
+import java.util.Objects;
+
+public class Location implements Cloneable {
     private int x;
     private int  y;
 
@@ -29,5 +31,22 @@ public class Location {
     public boolean equals(Object obj) {
         Location newObj = (Location) obj;
         return(this.x == newObj.x && this.y == newObj.y);
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            Location clone = (Location) super.clone();
+            clone.x = x;
+            clone.y = y;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

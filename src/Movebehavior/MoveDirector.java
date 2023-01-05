@@ -14,7 +14,7 @@ public class MoveDirector {
 
     /**
      * this function finds the legal moves for a piece based on the directional array given.
-     * the directional arrays directional_x and directional_y specify to search on.
+     * the directional arrays directional_x and directional_y specify where to search on.
      */
     public static ArrayList<Location> DirectMove(Location pieceLocation, Board board, int directional_x[], int directional_y[]){
         ArrayList<Location> availableLocations = new ArrayList<>();

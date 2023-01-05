@@ -2,6 +2,8 @@ package Game;
 
 import Pieces.Piece;
 
+import java.util.Objects;
+
 public class Square implements Cloneable {
 
     protected Location location;
@@ -71,15 +73,33 @@ public class Square implements Cloneable {
 
 
     @Override
-    public Square clone() {
+    public Object clone() {
         try {
             Square clone = (Square) super.clone();
-            clone.setPiece(getPiece());
-            clone.setLocation(getLocation());
-            clone.setColor(getColor());
+            if(piece == null){
+                clone.piece = null;
+            }
+            else {
+                clone.piece = piece;
+            }
+            clone.color = color;
+            clone.location = (Location) location.clone();
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return Objects.equals(location, square.location) && color == square.color && Objects.equals(piece, square.piece);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location, color, piece);
     }
 }

@@ -4,8 +4,9 @@ import Movebehavior.MoveBehavior;
 import Player.Player;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public abstract class Piece {
+public abstract class Piece implements Cloneable {
     protected PieceType type;
     protected Color color;
     protected Location location;
@@ -51,6 +52,38 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return color + type.name();
+        return  color.toString().toLowerCase()  + "(" + type.name()+ ")";
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            Piece clone = (Piece) super.clone();
+            if(this.location == null){
+                clone.location = null;
+            }
+            else {
+                clone.location = new Location(this.getLocation().getX(),this.getLocation().getY());
+            }
+
+            clone.type = type;
+            clone.color = color;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color && Objects.equals(location, piece.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color, location);
     }
 }
