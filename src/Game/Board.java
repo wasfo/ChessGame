@@ -10,8 +10,8 @@ public class Board implements Cloneable {
     public Square[][] squares;
     private ArrayList<Piece> blackPieces;
     private ArrayList<Piece> whitePieces;
-    public King whiteKing;
-    public King blackKing;
+    private King whiteKing = new King(Color.WHITE);
+    private King blackKing = new King(Color.BLACK);
 
     public ArrayList<Piece> getBlackPieces() {
         return blackPieces;
@@ -25,6 +25,7 @@ public class Board implements Cloneable {
         return whitePieces;
     }
 
+
     public void setWhitePieces(ArrayList<Piece> whitePieces) {
         this.whitePieces = whitePieces;
     }
@@ -37,24 +38,26 @@ public class Board implements Cloneable {
         this.blackKing = blackKing;
     }
 
+    public Square[][] getSquares() {
+        return squares;
+    }
+
     public King getKing(Color color) {
         if (color == Color.BLACK)
             return this.blackKing;
         return this.whiteKing;
     }
-
     public Square getSpecificSquare(Location location) {
         return squares[location.getX()][location.getY()];
     }
-
     public void setPieceOnLocation(Piece piece, Location location) {
         getSpecificSquare(location).setPiece(piece);
     }
 
     public Board() {
         squares = new Square[8][8];
-    //    whiteKing = new King(Color.WHITE);
-      //  blackKing = new King(Color.BLACK);
+        //    whiteKing = ;
+        //  blackKing = new King(Color.BLACK);
         whitePieces = new ArrayList<>();
         blackPieces = new ArrayList<>();
         createEmptyBoard();
@@ -172,18 +175,16 @@ public class Board implements Cloneable {
         blackPieces.add(blackQueen);
     }
 
-
     public void displayBoard() {
-
         for (int j = 7; j >= 0; j--) {
             System.out.print("\n");
             System.out.println();
             for (int i = 0; i < 8; i++) {
                 System.out.print(InputMoveHandler.map[i] + "" + (j + 1));
-                System.out.printf(" %12s ", squares[j][i]);
-
+                System.out.printf(" %13s ", squares[j][i]);
             }
         }
+        System.out.println();
     }
 
     public void setSquares(Square[][] squares) {
@@ -206,7 +207,6 @@ public class Board implements Cloneable {
         result = 31 * result + Arrays.deepHashCode(squares);
         return result;
     }
-
     private Square[][] deepCopy() {
         Square[][] newSquares = new Square[8][8];
         for (int i = 0; i < 8; i++) {
@@ -218,18 +218,29 @@ public class Board implements Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public Board clone() {
         try {
             Board clone = (Board) super.clone();
             clone.setSquares(deepCopy());
             clone.blackKing = new King(Color.BLACK);
-            blackKing.setLocation(this.blackKing.getLocation());
+            clone.blackKing.setLocation(new Location(this.blackKing.getLocation().getX(),this.blackKing.getLocation().getY()));
             clone.whiteKing = new King(Color.WHITE);
-            whiteKing.setLocation(this.whiteKing.getLocation());
-            System.out.println(clone.whiteKing.equals(whiteKing));
+            clone.whiteKing.setLocation(new Location(this.whiteKing.getLocation().getX(),this.whiteKing.getLocation().getY()));
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public Board CLONE() {
+        Board clonedBoard = new Board();
+        clonedBoard.setSquares(deepCopy());
+        clonedBoard.blackKing = new King(Color.BLACK);
+        Location blackKingLocation = new Location(this.blackKing.getLocation().getX(),this.blackKing.getLocation().getY());
+        clonedBoard.blackKing.setLocation(blackKingLocation);
+        clonedBoard.whiteKing = new King(Color.WHITE);
+        Location whiteKingLocation = new Location(this.whiteKing.getLocation().getX(),this.whiteKing.getLocation().getY());
+        clonedBoard.whiteKing.setLocation(whiteKingLocation);
+        return clonedBoard;
     }
 }

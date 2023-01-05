@@ -1,6 +1,7 @@
 package Movebehavior;
 
 import Game.Board;
+import Game.Color;
 import Game.Location;
 import Game.Square;
 import Pieces.King;
@@ -25,33 +26,44 @@ public class KingMove implements MoveBehavior {
          * 4) next location isn't threatened by enemy piece
          * change king location temporarily to check if that location is threatened or not
          */
-
         Square currentSquare = board.getSpecificSquare(kingOriginalLocation);
-        King currentKing = board.getKing(currentSquare.getPiece().getColor()).clone();
-
-        currentKing.setLocation(kingOriginalLocation);
+        Color kingColor = currentSquare.getPiece().getColor();
+        King currentKing = board.getKing(kingColor).clone();
         for (int i = 0; i < 8; i++) {
             Location destinationLocation = new Location(kingOriginalLocation.getX() + this.directional_x[i], kingOriginalLocation.getY() + this.directional_y[i]);
             if (isLocationOnBoard(destinationLocation)) {
                 Square nextSquare = board.getSpecificSquare(destinationLocation);
                 if (nextSquare.getPiece() == null) {
                     board.updateBoard(currentKing.getLocation(), destinationLocation);
-                    if (!currentKing.isInCheck(board)) {
+                    if (!board.getKing(kingColor).isInCheck(board)) {
                         possibleLocations.add(destinationLocation);
                     }
                     board.updateBoard(destinationLocation, kingOriginalLocation);
-                } else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
-                    Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
-                    board.getSpecificSquare(destinationLocation).removePiece();
-                    board.updateBoard(currentKing.getLocation(), destinationLocation);
-                    if (!currentKing.isInCheck(board)) {
-                        possibleLocations.add(destinationLocation);
-                    }
-                    board.updateBoard(destinationLocation, kingOriginalLocation);
-                    board.setPieceOnLocation(removedPiece, destinationLocation);
+                }
+                else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
+                    replacePieceWithKing(kingOriginalLocation, board, possibleLocations, kingColor, destinationLocation);
                 }
             }
         }
         return possibleLocations;
     }
+    private static void replacePieceWithKing(Location kingOriginalLocation, Board board, ArrayList<Location> possibleLocations, Color kingColor, Location destinationLocation) {
+        Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
+        board.getSpecificSquare(destinationLocation).removePiece();
+        if (!board.getKing(kingColor).isInCheck(board)) {
+            possibleLocations.add(destinationLocation);
+        }
+        board.updateBoard(destinationLocation, kingOriginalLocation);
+        board.setPieceOnLocation(removedPiece, destinationLocation);
+
+    }
+
+
+
+
+
+
+
+
+
 }

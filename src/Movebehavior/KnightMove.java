@@ -24,14 +24,18 @@ public class KnightMove implements MoveBehavior {
             if (isLocationOnBoard(destinationLocation)) {
                 Square destSquare = board.getSpecificSquare(destinationLocation);
                 if(destSquare.getPiece()!= null) {
-                    if (!isCollidedWithSameColor(currentSquare.getPiece().getColor(), destSquare.getPiece().getColor())
-                    && destSquare.getPiece().getType() != PieceType.KING) {
-                            availableLocations.add(destinationLocation);
-                    }
+                    CheckColor(availableLocations, currentSquare, destinationLocation, destSquare);
                 }
                 else availableLocations.add(destinationLocation);
             }
         }
         return availableLocations;
+    }
+
+    private static void CheckColor(ArrayList<Location> availableLocations, Square currentSquare, Location destinationLocation, Square destSquare) {
+        if (!isCollidedWithSameColor(currentSquare.getPiece().getColor(), destSquare.getPiece().getColor())
+        && destSquare.getPiece().getType() != PieceType.KING) {
+                availableLocations.add(destinationLocation);
+        }
     }
 }

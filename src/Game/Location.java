@@ -35,14 +35,8 @@ public class Location implements Cloneable {
 
     @Override
     public Object clone() {
-        try {
-            Location clone = (Location) super.clone();
-            clone.x = x;
-            clone.y = y;
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+        return new Location(getX(), getY());
+
     }
 
     @Override

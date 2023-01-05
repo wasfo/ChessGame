@@ -23,6 +23,7 @@ public class Square implements Cloneable {
 
     public void setPiece(Piece piece) {
         if (piece != null) {
+           // Location newLoaction = new Location(this.getLocation().getX(),this.getLocation().getY());
             piece.setLocation(this.location);
             this.piece = piece;
         }
@@ -63,7 +64,8 @@ public class Square implements Cloneable {
         if (this.piece == null)
             return "";
         else {
-            return piece + "";
+            //return "SL: "+this.location + " " + piece + "";
+            return   piece + "";
         }
     }
 
@@ -80,7 +82,7 @@ public class Square implements Cloneable {
                 clone.piece = null;
             }
             else {
-                clone.piece = piece;
+                clone.piece = (Piece) piece.clone();
             }
             clone.color = color;
             clone.location = (Location) location.clone();
@@ -97,7 +99,6 @@ public class Square implements Cloneable {
         Square square = (Square) o;
         return Objects.equals(location, square.location) && color == square.color && Objects.equals(piece, square.piece);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(location, color, piece);

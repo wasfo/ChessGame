@@ -14,7 +14,7 @@ public class BoardManager {
     public BoardManager(Board board) {
         this.board = board;
     }
-    public boolean isNotSameColor(Color first, Color second) { // please ahmad check this function
+    public boolean isNotSameColor(Color first, Color second) {
         return first != second;
     }
 
@@ -38,10 +38,6 @@ public class BoardManager {
             return false;
         }
        return istestedMoveCorrect(currentMove,currentPlayer);
-
-    }
-    public void ApplyMove(Move currentMove){
-        this.board.updateBoard(currentMove.getStartLocation(),currentMove.getEndLocation());
     }
     public boolean istestedMoveCorrect(Move currentMove , Player currentPlayer){
         Square startSquare = board.getSpecificSquare(currentMove.getStartLocation());
@@ -52,7 +48,7 @@ public class BoardManager {
             this.board.updateBoard(startSquare.getLocation() , targetSquare.getLocation());
             return false;
         }
-        this.board.updateBoard(currentMove.getEndLocation(),currentMove.getStartLocation());
+        this.board.updateBoard(startSquare.getLocation() , targetSquare.getLocation());
          return true;
     }
 

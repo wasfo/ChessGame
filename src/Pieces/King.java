@@ -6,19 +6,13 @@ import Game.Square;
 import Movebehavior.KingMove;
 import Movebehavior.MoveBehavior;
 import Player.Player;
-
 import java.util.ArrayList;
-
 import static Movebehavior.Validators.isLocationOnBoard;
-
 public class King extends Piece implements Cloneable {
 
     public King(Color color) {
         super(PieceType.KING, color);
     }
-
-
-
     @Override
     public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         MoveBehavior kingMove = new KingMove();
@@ -43,6 +37,8 @@ public class King extends Piece implements Cloneable {
         return isAttackedBy(board,directional_y,directional_x,PieceType.PAWN);
     }
     public boolean isAttackedBy(Board board, int[] directional_y, int[] directional_x, PieceType AttackByPiece){
+        if(this.getLocation() == null)
+            return false;
         Location kingLocation = this.getLocation();
         for (int i = 0; i < directional_x.length; i++) {
             int tempX = kingLocation.getX() + directional_x[i];
@@ -103,7 +99,6 @@ public class King extends Piece implements Cloneable {
     public boolean isRowThreatened(Board board) {
         int[] directional_x = {0, 0};
         int[] directional_y = {+1, -1};
-
         return isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.ROOK) ||
                 isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
     }

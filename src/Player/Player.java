@@ -4,7 +4,7 @@ import Game.InputMoveHandler;
 import Pieces.King;
 public class Player {
     private King playerKing;
-    private boolean isChecked = false;
+    private boolean isCheckedmated = false;
     private Color color;
 
     public Player(King playerKing, Color color) {
@@ -12,12 +12,12 @@ public class Player {
         this.color = color;
     }
 
-    public boolean isChecked() {
-        return this.isChecked;
+    public boolean isCheckedmated() {
+        return this.isCheckedmated;
     }
 
-    public void setChecked(boolean checked) {
-        this.isChecked = checked;
+    public void setCheckedmated(boolean checked) {
+        this.isCheckedmated = checked;
     }
     public King getPlayerKing() {
         return playerKing;
@@ -44,6 +44,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return color + " PLAYER";
+        return "player" + "(" + this.color.toString().toLowerCase() + ") ";
     }
 }

@@ -52,7 +52,7 @@ public abstract class Piece implements Cloneable {
 
     @Override
     public String toString() {
-        return  color.toString().toLowerCase()  + "(" + type.name()+ ")";
+        return  location + " " + color.toString().toLowerCase()  + "(" + type.name()+ ")";
     }
 
     @Override
@@ -63,9 +63,8 @@ public abstract class Piece implements Cloneable {
                 clone.location = null;
             }
             else {
-                clone.location = new Location(this.getLocation().getX(),this.getLocation().getY());
+                clone.location = (Location) location.clone();
             }
-
             clone.type = type;
             clone.color = color;
             return clone;
