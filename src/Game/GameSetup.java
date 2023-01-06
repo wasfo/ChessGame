@@ -20,11 +20,15 @@ public class GameSetup {
         gameResult(whitePlayer, blackPlayer);
         chessBoard.displayBoard();
     }
-
     private static void playMove(Board chessBoard, BoardManager boardManager, Player currentPlayer,
                                  Player oppositePlayer, Move currentMove) {
 
+        System.out.println(oppositePlayer.getColor() + " King is in check?  " +
+                oppositePlayer.getPlayerKing().isInCheck(chessBoard));
+
         while (!boardManager.isLegalMove(currentMove, currentPlayer)) {
+
+
             if (oppositePlayer.getPlayerKing().isCheckMated(chessBoard, currentPlayer)) {
                 currentPlayer.setCheckedmated(true);
                 break;
@@ -34,12 +38,12 @@ public class GameSetup {
         }
         ApplyMove(chessBoard, currentMove);
     }
+
+
     private static void ApplyMove(Board chessBoard, Move currentMove) {
         chessBoard.updateBoard(currentMove.getStartLocation(), currentMove.getEndLocation());
         chessBoard.displayBoard();
     }
-
-
     private static void gameResult(Player whitePlayer, Player blackPlayer) {
         if (whitePlayer.isCheckedmated())
             System.out.println(GameResult.BlackWins);

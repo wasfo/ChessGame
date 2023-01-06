@@ -39,31 +39,22 @@ public class KingMove implements MoveBehavior {
                         possibleLocations.add(destinationLocation);
                     }
                     board.updateBoard(destinationLocation, kingOriginalLocation);
-                }
-                else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
-                    replacePieceWithKing(kingOriginalLocation, board, possibleLocations, kingColor, destinationLocation);
+                } else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
+                    replaceKingWithPiece(kingOriginalLocation, board, possibleLocations, kingColor, currentKing, destinationLocation);
                 }
             }
         }
         return possibleLocations;
     }
-    private static void replacePieceWithKing(Location kingOriginalLocation, Board board, ArrayList<Location> possibleLocations, Color kingColor, Location destinationLocation) {
+    private static void replaceKingWithPiece(Location kingOriginalLocation, Board board, ArrayList<Location> possibleLocations, Color kingColor, King currentKing, Location destinationLocation) {
         Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
+        System.out.println(removedPiece);
         board.getSpecificSquare(destinationLocation).removePiece();
+        board.updateBoard(currentKing.getLocation(), destinationLocation);
         if (!board.getKing(kingColor).isInCheck(board)) {
             possibleLocations.add(destinationLocation);
         }
         board.updateBoard(destinationLocation, kingOriginalLocation);
         board.setPieceOnLocation(removedPiece, destinationLocation);
-
     }
-
-
-
-
-
-
-
-
-
 }

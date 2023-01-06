@@ -25,7 +25,6 @@ public class Board implements Cloneable {
         return whitePieces;
     }
 
-
     public void setWhitePieces(ArrayList<Piece> whitePieces) {
         this.whitePieces = whitePieces;
     }
@@ -120,7 +119,7 @@ public class Board implements Cloneable {
         for (int i = 0; i < 8; i++) {
             Pawn pawn = new Pawn(Color.BLACK);
             squares[6][i].setPiece(pawn);
-            whitePieces.add(pawn);
+            blackPieces.add(pawn);
         }
     }
 
@@ -230,17 +229,5 @@ public class Board implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
-    }
-
-    public Board CLONE() {
-        Board clonedBoard = new Board();
-        clonedBoard.setSquares(deepCopy());
-        clonedBoard.blackKing = new King(Color.BLACK);
-        Location blackKingLocation = new Location(this.blackKing.getLocation().getX(),this.blackKing.getLocation().getY());
-        clonedBoard.blackKing.setLocation(blackKingLocation);
-        clonedBoard.whiteKing = new King(Color.WHITE);
-        Location whiteKingLocation = new Location(this.whiteKing.getLocation().getX(),this.whiteKing.getLocation().getY());
-        clonedBoard.whiteKing.setLocation(whiteKingLocation);
-        return clonedBoard;
     }
 }

@@ -13,14 +13,18 @@ public class King extends Piece implements Cloneable {
     public King(Color color) {
         super(PieceType.KING, color);
     }
+
     @Override
     public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         MoveBehavior kingMove = new KingMove();
         return kingMove.calculatePossibleLocations(this.getLocation(), board);
     }
+
+
     public boolean hasEscapeMoves(Board board, Player player){
         return calculateLegalMoveLocations(board, player).size() > 0;
     }
+
 
     public boolean isCheckMated(Board board, Player player){
         return isInCheck(board) && !hasEscapeMoves(board, player);

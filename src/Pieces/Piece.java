@@ -1,4 +1,5 @@
 package Pieces;
+
 import Game.*;
 import Movebehavior.MoveBehavior;
 import Player.Player;
@@ -10,6 +11,7 @@ public abstract class Piece implements Cloneable {
     protected PieceType type;
     protected Color color;
     protected Location location;
+
     public MoveBehavior addMoveBehavior(MoveBehavior moveBehavior) {
         return moveBehavior;
     }
@@ -19,10 +21,12 @@ public abstract class Piece implements Cloneable {
         this.color = color;
 
     }
+
     public Piece() {
         this.type = null;
         this.color = null;
     }
+
     public PieceType getType() {
         return type;
     }
@@ -50,19 +54,37 @@ public abstract class Piece implements Cloneable {
 
     public abstract ArrayList<Location> calculateLegalMoveLocations(final Board board, Player player);
 
+    public ArrayList<Location> calculateDefendMoves(final Board board, final Player player) {
+        ArrayList<Location> possibleLocationsForDefendPiece = new ArrayList<>(this.calculateLegalMoveLocations(board, player));
+        ArrayList<Location> defendMoves = new ArrayList<>();
+        if (possibleLocationsForDefendPiece.isEmpty())
+            return defendMoves;
+        for (Location defendPieceLocation : possibleLocationsForDefendPiece) {
+            Piece removedPiece = board.getSpecificSquare(defendPieceLocation).getPiece();
+            Square currentSquare = board.getSpecificSquare(this.getLocation());
+            board.updateBoard(currentSquare.getLocation(), defendPieceLocation);
+            if (!player.getPlayerKing().isInCheck(board)) {
+                defendMoves.add(defendPieceLocation);
+            }
+            board.updateBoard(defendPieceLocation, currentSquare.getLocation());
+            if (removedPiece != null)
+                board.setPieceOnLocation(removedPiece, removedPiece.getLocation());
+        }
+        return defendMoves;
+    }
+
     @Override
     public String toString() {
-        return  location + " " + color.toString().toLowerCase()  + "(" + type.name()+ ")";
+        return location + " " + color.toString().toLowerCase() + "(" + type.name() + ")";
     }
 
     @Override
     public Object clone() {
         try {
             Piece clone = (Piece) super.clone();
-            if(this.location == null){
+            if (this.location == null) {
                 clone.location = null;
-            }
-            else {
+            } else {
                 clone.location = (Location) location.clone();
             }
             clone.type = type;

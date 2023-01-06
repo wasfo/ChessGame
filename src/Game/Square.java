@@ -5,11 +5,9 @@ import Pieces.Piece;
 import java.util.Objects;
 
 public class Square implements Cloneable {
-
     protected Location location;
     private Color color;
     private Piece piece = null;
-
     public Square(Location location, Color color) {
         this.location = location;
         this.color = color;
@@ -18,19 +16,17 @@ public class Square implements Cloneable {
 
     public Square(Location location, Color color, Piece piece) {
         this(location, color);
-        this.piece = piece;
+        this.piece = (Piece) piece.clone();
     }
 
     public void setPiece(Piece piece) {
         if (piece != null) {
-           // Location newLoaction = new Location(this.getLocation().getX(),this.getLocation().getY());
             piece.setLocation(this.location);
             this.piece = piece;
         }
         else
             this.piece = null;
     }
-
     public boolean isEmpty() {
         return this.piece == null;
     }

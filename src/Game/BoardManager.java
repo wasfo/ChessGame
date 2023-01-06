@@ -17,7 +17,6 @@ public class BoardManager {
     public boolean isNotSameColor(Color first, Color second) {
         return first != second;
     }
-
     public boolean isLegalMove(Move currentMove, Player currentPlayer) {
         if (currentMove.getEndLocation() == null || currentMove.getStartLocation() == null) {
             System.out.println("Invalid move");
@@ -34,7 +33,7 @@ public class BoardManager {
             return false;
         }
         if (!legalMoveLocations.contains(currentMove.getEndLocation())){
-            System.out.println("we cant move " +  startPiece + " to this " + currentMove.getEndLocation());
+            System.out.println("we cant move " +  startPiece + " to that location " );
             return false;
         }
        return istestedMoveCorrect(currentMove,currentPlayer);
@@ -45,11 +44,14 @@ public class BoardManager {
         this.board.updateBoard(startSquare.getLocation(),targetSquare.getLocation());
         if(currentPlayer.getPlayerKing().isInCheck(this.board)){
             //undo move
-            this.board.updateBoard(startSquare.getLocation() , targetSquare.getLocation());
+            this.board.updateBoard(targetSquare.getLocation(),startSquare.getLocation());
             return false;
         }
-        this.board.updateBoard(startSquare.getLocation() , targetSquare.getLocation());
+        this.board.updateBoard(targetSquare.getLocation(),startSquare.getLocation());
          return true;
     }
+
+
+
 
 }
