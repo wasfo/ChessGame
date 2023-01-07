@@ -1,12 +1,10 @@
 package Movebehavior;
-
 import Game.Board;
 import Game.Color;
 import Game.Location;
 import Game.Square;
 import Pieces.King;
 import Pieces.Piece;
-
 import java.util.ArrayList;
 
 import static Movebehavior.Validators.isLocationOnBoard;
@@ -19,11 +17,12 @@ public class KingMove implements MoveBehavior {
     public ArrayList<Location> calculatePossibleLocations(Location kingOriginalLocation, Board board) {
         ArrayList<Location> possibleLocations = new ArrayList<>();
         /**
-         * to calculate legal locations for the king, I have to check on many things :
-         * 1) next location is on board
-         * 2) next location has enemy piece but this piece isn't protected by another enemy piece
-         * 3) next location doesn't have AllyPiece
-         * 4) next location isn't threatened by enemy piece
+         * to calculate legal locations for the king, I have to check on many things:
+         * next Square is the Square I'm letting my king go to it.
+         * 1) next Square is on board
+         * 2) next Square has enemy piece but this piece isn't protected by another enemy piece
+         * 3) next Square doesn't have AllyPiece
+         * 4) next Square isn't threatened by enemy piece
          * change king location temporarily to check if that location is threatened or not
          */
         Square currentSquare = board.getSpecificSquare(kingOriginalLocation);
@@ -35,9 +34,7 @@ public class KingMove implements MoveBehavior {
                 Square nextSquare = board.getSpecificSquare(destinationLocation);
                 if (nextSquare.getPiece() == null) {
                     board.updateBoard(currentKing.getLocation(), destinationLocation);
-                    if (!board.getKing(kingColor).isInCheck(board)) {
-                        possibleLocations.add(destinationLocation);
-                    }
+                    addLocationIfKingIsSafe(board, possibleLocations, kingColor, destinationLocation);
                     board.updateBoard(destinationLocation, kingOriginalLocation);
                 } else if (nextSquare.getPiece().getColor() != currentKing.getColor()) {
                     replaceKingWithPiece(kingOriginalLocation, board, possibleLocations, kingColor, currentKing, destinationLocation);
@@ -46,14 +43,16 @@ public class KingMove implements MoveBehavior {
         }
         return possibleLocations;
     }
-    private static void replaceKingWithPiece(Location kingOriginalLocation, Board board, ArrayList<Location> possibleLocations, Color kingColor, King currentKing, Location destinationLocation) {
-        Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
-        System.out.println(removedPiece);
-        board.getSpecificSquare(destinationLocation).removePiece();
-        board.updateBoard(currentKing.getLocation(), destinationLocation);
+    private static void addLocationIfKingIsSafe(Board board, ArrayList<Location> possibleLocations, Color kingColor, Location destinationLocation) {
         if (!board.getKing(kingColor).isInCheck(board)) {
             possibleLocations.add(destinationLocation);
         }
+    }
+    private static void replaceKingWithPiece(Location kingOriginalLocation, Board board, ArrayList<Location> possibleLocations, Color kingColor, King currentKing, Location destinationLocation) {
+        Piece removedPiece = board.getSpecificSquare(destinationLocation).getPiece();
+        board.getSpecificSquare(destinationLocation).removePiece();
+        board.updateBoard(currentKing.getLocation(), destinationLocation);
+        addLocationIfKingIsSafe(board, possibleLocations, kingColor, destinationLocation);
         board.updateBoard(destinationLocation, kingOriginalLocation);
         board.setPieceOnLocation(removedPiece, destinationLocation);
     }

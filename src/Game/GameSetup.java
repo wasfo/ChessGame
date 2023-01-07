@@ -1,53 +1,79 @@
 package Game;
-
+import Pieces.Piece;
 import Player.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameSetup {
-    public static void SetupGame(Board chessBoard, BoardManager boardManager) {
-        chessBoard.setupBoard();
-        Player whitePlayer = new Player(chessBoard.getKing(Color.WHITE), Color.WHITE);
-        Player blackPlayer = new Player(chessBoard.getKing(Color.BLACK), Color.BLACK);
+    private static final Board chessBoard = new Board();
+    private static final List<Move> movesHistory = new ArrayList<Move>();
+    static BoardManager boardManager = new BoardManager(chessBoard);
+    static Player whitePlayer;
+    static Player blackPlayer;
+
+    public GameSetup(Player whitePlayer, Player blackPlayer) {
+        boardManager.setupBoard();
+        GameSetup.whitePlayer = whitePlayer;
+        GameSetup.whitePlayer.setCheckedmated(false);
+        GameSetup.whitePlayer.setPlayerKing(chessBoard.getKing(Color.WHITE));
+        GameSetup.blackPlayer = blackPlayer;
+        GameSetup.blackPlayer.setCheckedmated(false);
+        GameSetup.blackPlayer.setPlayerKing(chessBoard.getKing(Color.BLACK));
+    }
+    private static Move promotePlayerToMove(Player Player) {
+        Move currentMove;
+        System.out.print(Player + "enter move: ");
+        currentMove = Player.makeMove();
+        return currentMove;
+    }
+    public static void startGame() {
+        boolean turn = true;
         chessBoard.displayBoard();
-        for (int i = 0; i < 50; i++) {
-            Player currentPlayer = (i % 2 == 0 ? whitePlayer : blackPlayer);
-            Player oppositePlayer = (i % 2 == 0 ?   blackPlayer: whitePlayer);
-            System.out.print(currentPlayer + "enter move: ");
-            Move currentMove = currentPlayer.makeMove();
-            if (i == 49 || whitePlayer.isCheckedmated() || blackPlayer.isCheckedmated())
-                break;
-            playMove(chessBoard, boardManager, currentPlayer, oppositePlayer ,currentMove);
+
+        while (gameIsNotFinished(whitePlayer, blackPlayer)) {
+            Player currentPlayer = (turn ? whitePlayer : blackPlayer);
+            Player oppositePlayer = (!turn ? whitePlayer : blackPlayer);
+            Move currentMove = promotePlayerToMove(currentPlayer);
+            testMove(currentPlayer, oppositePlayer, currentMove);
+            turn = !turn;
         }
-        gameResult(whitePlayer, blackPlayer);
+        gameResult();
         chessBoard.displayBoard();
     }
-    private static void playMove(Board chessBoard, BoardManager boardManager, Player currentPlayer,
-                                 Player oppositePlayer, Move currentMove) {
-
-        System.out.println(oppositePlayer.getColor() + " King is in check?  " +
-                oppositePlayer.getPlayerKing().isInCheck(chessBoard));
-
+    private static boolean gameIsNotFinished(Player whitePlayer, Player blackPlayer) {
+        return GameSetup.movesHistory.size() <= 49 && !whitePlayer.isCheckedmated() && !blackPlayer.isCheckedmated();
+    }
+    private static void testMove(Player currentPlayer, Player oppositePlayer, Move currentMove) {
         while (!boardManager.isLegalMove(currentMove, currentPlayer)) {
-
-
-            if (oppositePlayer.getPlayerKing().isCheckMated(chessBoard, currentPlayer)) {
-                currentPlayer.setCheckedmated(true);
-                break;
-            }
-            System.out.print(currentPlayer + "enter move: ");
-            currentMove = currentPlayer.makeMove();
+            currentMove = promotePlayerToMove(currentPlayer);
         }
-        ApplyMove(chessBoard, currentMove);
-    }
+        ApplyMove(currentMove);
+        if (oppositePlayer.getPlayerKing().isCheckMated(GameSetup.chessBoard, oppositePlayer)) {
+            oppositePlayer.setCheckedmated(true);
+        }
 
+        System.out.println(oppositePlayer.getColor() + " King is in check ? " +
+                oppositePlayer.getPlayerKing().isInCheck(GameSetup.chessBoard));
 
-    private static void ApplyMove(Board chessBoard, Move currentMove) {
-        chessBoard.updateBoard(currentMove.getStartLocation(), currentMove.getEndLocation());
-        chessBoard.displayBoard();
+        System.out.println(currentPlayer.getColor() + " King is in check? " +
+                currentPlayer.getPlayerKing().isInCheck(GameSetup.chessBoard));
+
+        System.out.println(oppositePlayer.getColor() + " King is checkmated? " +
+                oppositePlayer.getPlayerKing().isCheckMated(GameSetup.chessBoard,oppositePlayer));
+
+        System.out.println(currentPlayer.getColor() + " King is checkmated? " +
+                currentPlayer.getPlayerKing().isCheckMated(GameSetup.chessBoard,currentPlayer));
+
     }
-    private static void gameResult(Player whitePlayer, Player blackPlayer) {
+    private static void ApplyMove(Move currentMove) {
+        GameSetup.chessBoard.updateBoard(currentMove.getStartLocation(), currentMove.getEndLocation());
+        movesHistory.add(currentMove);
+        GameSetup.chessBoard.displayBoard();
+    }
+    private static void gameResult() {
         if (whitePlayer.isCheckedmated())
             System.out.println(GameResult.BlackWins);
-        else if (blackPlayer.isCheckedmated())
+        if (blackPlayer.isCheckedmated())
             System.out.println(GameResult.WhiteWins);
         else System.out.println(GameResult.Draw);
     }

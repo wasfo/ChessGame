@@ -14,9 +14,8 @@ public class Knight extends Piece {
 
     public ArrayList<Location> calculateLegalMoveLocations(final Board board, final Player player) {
         Location currentLocation = this.getLocation();
-        MoveBehavior knightMove = addMoveBehavior(new KnightMove());
-        ArrayList<Location> possibleLocationsForKnight = new ArrayList<>((knightMove.calculatePossibleLocations(currentLocation, board)));
-        return possibleLocationsForKnight;
+        MoveBehavior knightMove = new KnightMove();
+        return new ArrayList<>((knightMove.calculatePossibleLocations(currentLocation, board)));
     }
 
 }

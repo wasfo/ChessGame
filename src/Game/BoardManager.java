@@ -10,9 +10,11 @@ public class BoardManager {
     public Board getBoard() {
         return this.board;
     }
-
     public BoardManager(Board board) {
         this.board = board;
+    }
+    public void setupBoard(){
+        this.board.setupBoard();
     }
     public boolean isNotSameColor(Color first, Color second) {
         return first != second;
@@ -26,32 +28,28 @@ public class BoardManager {
         if (startSquare.getPiece() == null || isNotSameColor(startSquare.getPiece().getColor(), currentPlayer.getColor())) {
             return false;
         }
-        Piece startPiece = startSquare.getPiece();
-        ArrayList<Location> legalMoveLocations = startPiece.calculateLegalMoveLocations(this.board, currentPlayer);
+        Piece grabbedPiece = startSquare.getPiece();
+        ArrayList<Location> legalMoveLocations = grabbedPiece.calculateLegalMoveLocations(this.board, currentPlayer);
         if (legalMoveLocations.isEmpty()) {
-            System.out.println("no moves allowed for  "+ startPiece);
+            System.out.println("this "+ grabbedPiece + " is blocked or pinned");
             return false;
         }
         if (!legalMoveLocations.contains(currentMove.getEndLocation())){
-            System.out.println("we cant move " +  startPiece + " to that location " );
+            System.out.println("we cant move " +  grabbedPiece + " to this location" + currentMove.getStartLocation() );
             return false;
         }
-       return istestedMoveCorrect(currentMove,currentPlayer);
+       return isKingSafeAfterTestingTheMove(currentMove,currentPlayer);
     }
-    public boolean istestedMoveCorrect(Move currentMove , Player currentPlayer){
+
+    public boolean isKingSafeAfterTestingTheMove(Move currentMove , Player currentPlayer){
         Square startSquare = board.getSpecificSquare(currentMove.getStartLocation());
         Square targetSquare = board.getSpecificSquare(currentMove.getEndLocation());
         this.board.updateBoard(startSquare.getLocation(),targetSquare.getLocation());
         if(currentPlayer.getPlayerKing().isInCheck(this.board)){
-            //undo move
             this.board.updateBoard(targetSquare.getLocation(),startSquare.getLocation());
             return false;
         }
         this.board.updateBoard(targetSquare.getLocation(),startSquare.getLocation());
-         return true;
+        return true;
     }
-
-
-
-
 }

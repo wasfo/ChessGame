@@ -18,10 +18,12 @@ public class PawnAttack implements MoveBehavior {
         Color pawnColor = currentSquare.getPiece().getColor();
         int[] directional_x = {pawnColor == Color.WHITE ? +1 : -1, pawnColor == Color.WHITE ? +1 : -1};
         int[] directional_y = {pawnColor == Color.WHITE ? -1 : +1, pawnColor == Color.WHITE ? +1 : -1};
+
         for (int i = 0; i < 2; i++) {
             int tempX = pawnLocation.getX() + directional_x[i];
             int tempY = pawnLocation.getY() + directional_y[i];
             Location tempLocation = new Location(tempX, tempY);
+
             if (isLocationOnBoard(tempLocation)) {
                 Square nextSquare = board.getSpecificSquare(tempLocation);
                 if (nextSquare.isEmpty()) {

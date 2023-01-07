@@ -12,6 +12,10 @@ public class Player {
         this.color = color;
     }
 
+    public Player(Color color) {
+        this.color = color;
+    }
+
     public boolean isCheckedmated() {
         return this.isCheckedmated;
     }

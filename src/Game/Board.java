@@ -7,7 +7,7 @@ import java.util.*;
 import static Movebehavior.Validators.*;
 
 public class Board implements Cloneable {
-    public Square[][] squares;
+    private Square[][] squares;
     private ArrayList<Piece> blackPieces;
     private ArrayList<Piece> whitePieces;
     private King whiteKing = new King(Color.WHITE);
@@ -21,12 +21,23 @@ public class Board implements Cloneable {
         this.blackPieces = blackPieces;
     }
 
+    // remember to remove this
+    public Square[][] getSquares() {
+        return squares;
+    }
+
     public ArrayList<Piece> getWhitePieces() {
         return whitePieces;
     }
-
     public void setWhitePieces(ArrayList<Piece> whitePieces) {
         this.whitePieces = whitePieces;
+    }
+    public void removePieceFromList(Piece piece){
+        if(piece.getColor()==Color.WHITE){
+            whitePieces.remove(piece);
+        } else {
+            blackPieces.remove(piece);
+        }
     }
 
     private Board(Square[][] squares, ArrayList<Piece> blackPieces, ArrayList<Piece> whitePieces, King whiteKing, King blackKing) {
@@ -35,10 +46,6 @@ public class Board implements Cloneable {
         this.whitePieces = whitePieces;
         this.whiteKing = whiteKing;
         this.blackKing = blackKing;
-    }
-
-    public Square[][] getSquares() {
-        return squares;
     }
 
     public King getKing(Color color) {
@@ -55,8 +62,6 @@ public class Board implements Cloneable {
 
     public Board() {
         squares = new Square[8][8];
-        //    whiteKing = ;
-        //  blackKing = new King(Color.BLACK);
         whitePieces = new ArrayList<>();
         blackPieces = new ArrayList<>();
         createEmptyBoard();
@@ -65,6 +70,10 @@ public class Board implements Cloneable {
     public void updateBoard(Location fromLocation, Location toLocation) {
         Piece pieceOnLocation = squares[fromLocation.getX()][fromLocation.getY()].getPiece();
         if (pieceOnLocation != null && isLocationOnBoard(toLocation)) {
+            Piece targetPiece = squares[toLocation.getX()][toLocation.getY()].getPiece();
+            if (targetPiece != null) {
+                this.removePieceFromList(targetPiece);
+            }
             squares[toLocation.getX()][toLocation.getY()].setPiece(pieceOnLocation);
             squares[fromLocation.getX()][fromLocation.getY()].removePiece();
         }
@@ -180,7 +189,7 @@ public class Board implements Cloneable {
             System.out.println();
             for (int i = 0; i < 8; i++) {
                 System.out.print(InputMoveHandler.map[i] + "" + (j + 1));
-                System.out.printf(" %13s ", squares[j][i]);
+                 System.out.printf(" %13s ", squares[j][i]);
             }
         }
         System.out.println();

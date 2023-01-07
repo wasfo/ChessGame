@@ -8,18 +8,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Piece implements Cloneable {
-    protected PieceType type;
-    protected Color color;
-    protected Location location;
-
-    public MoveBehavior addMoveBehavior(MoveBehavior moveBehavior) {
-        return moveBehavior;
-    }
+    private PieceType type;
+    private Color color;
+    private Location location;
 
     public Piece(PieceType type, Color color) {
         this.type = type;
         this.color = color;
-
     }
 
     public Piece() {
@@ -54,28 +49,9 @@ public abstract class Piece implements Cloneable {
 
     public abstract ArrayList<Location> calculateLegalMoveLocations(final Board board, Player player);
 
-    public ArrayList<Location> calculateDefendMoves(final Board board, final Player player) {
-        ArrayList<Location> possibleLocationsForDefendPiece = new ArrayList<>(this.calculateLegalMoveLocations(board, player));
-        ArrayList<Location> defendMoves = new ArrayList<>();
-        if (possibleLocationsForDefendPiece.isEmpty())
-            return defendMoves;
-        for (Location defendPieceLocation : possibleLocationsForDefendPiece) {
-            Piece removedPiece = board.getSpecificSquare(defendPieceLocation).getPiece();
-            Square currentSquare = board.getSpecificSquare(this.getLocation());
-            board.updateBoard(currentSquare.getLocation(), defendPieceLocation);
-            if (!player.getPlayerKing().isInCheck(board)) {
-                defendMoves.add(defendPieceLocation);
-            }
-            board.updateBoard(defendPieceLocation, currentSquare.getLocation());
-            if (removedPiece != null)
-                board.setPieceOnLocation(removedPiece, removedPiece.getLocation());
-        }
-        return defendMoves;
-    }
-
     @Override
     public String toString() {
-        return location + " " + color.toString().toLowerCase() + "(" + type.name() + ")";
+        return color.toString().toLowerCase() + "(" + type.name() + ")";
     }
 
     @Override

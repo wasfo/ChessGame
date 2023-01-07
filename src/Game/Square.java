@@ -58,10 +58,10 @@ public class Square implements Cloneable {
     @Override
     public String toString() {
         if (this.piece == null)
-            return "";
+            return this.location + " null";
         else {
-            //return "SL: "+this.location + " " + piece + "";
-            return   piece + "";
+            return this.location + " " + piece;
+           // return   piece + "";
         }
     }
 

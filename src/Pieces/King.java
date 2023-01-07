@@ -9,35 +9,60 @@ import Player.Player;
 import java.util.ArrayList;
 import static Movebehavior.Validators.isLocationOnBoard;
 public class King extends Piece implements Cloneable {
-
     public King(Color color) {
         super(PieceType.KING, color);
     }
-
     @Override
     public ArrayList<Location> calculateLegalMoveLocations(Board board, Player player) {
         MoveBehavior kingMove = new KingMove();
         return kingMove.calculatePossibleLocations(this.getLocation(), board);
     }
-
-
     public boolean hasEscapeMoves(Board board, Player player){
         return calculateLegalMoveLocations(board, player).size() > 0;
     }
-
-
     public boolean isCheckMated(Board board, Player player){
-        return isInCheck(board) && !hasEscapeMoves(board, player);
+        return isInCheck(board) && !hasEscapeMoves(board, player) && defendMovesForKing(board,player).size() == 0;
     }
 
+    public ArrayList<Location> calculateDefendMovesForAllyPiece(Piece piece, Board board, final Player player) {
+        ArrayList<Location> possibleLocationsForDefendPiece = new ArrayList<>(piece.calculateLegalMoveLocations(board, player));
+        ArrayList<Location> defendMoves = new ArrayList<>();
+        if (possibleLocationsForDefendPiece.isEmpty())
+            return defendMoves;
+        Square currentSquare = board.getSpecificSquare(piece.getLocation());
+        for (Location targetLocation : possibleLocationsForDefendPiece) {
+            Piece targetPiece = board.getSpecificSquare(targetLocation).getPiece();
+            board.updateBoard(currentSquare.getLocation(), targetLocation);
+            if (!player.getPlayerKing().isInCheck(board)) {
+                defendMoves.add(targetLocation);
+            }
+            board.updateBoard(targetLocation, currentSquare.getLocation());
+            if (targetPiece != null) {
+                board.setPieceOnLocation(targetPiece, targetPiece.getLocation());
+            }
+        }
+        return defendMoves;
+    }
+    public ArrayList<Location> defendMovesForKing(final Board board, final Player player){
+        ArrayList<Piece> kingAllyPieces = new ArrayList<>();
+        ArrayList<Location> defendMoves = new ArrayList<>();
+        if (this.getColor() == Color.WHITE) {
+            kingAllyPieces.addAll(board.getWhitePieces());
+        } else  {
+            kingAllyPieces.addAll(board.getBlackPieces());
+        }
+        for (Piece kingAllyPiece : kingAllyPieces) {
+            defendMoves.addAll(calculateDefendMovesForAllyPiece(kingAllyPiece, board, player));
+        }
+        return defendMoves;
+    }
     public boolean isInCheck(Board board) {
         return (isRowThreatened(board) || isColumnThreatened(board) || isDiagonalThreatened(board) ||
                 isAttackedByPawn(board) || isAttackedByKnight(board));
     }
-
     public boolean isAttackedByPawn(Board board) {
-        int[] directional_x = {this.getColor() == Color.BLACK ? +1 : -1, this.getColor() == Color.BLACK ? +1 : -1};
-        int[] directional_y = {this.getColor() == Color.BLACK ? -1 : +1, this.getColor() == Color.BLACK ? +1 : -1};
+        int[] directional_x = {this.getColor() == Color.WHITE ? +1 : -1, this.getColor() == Color.WHITE ? +1 : -1};
+        int[] directional_y = {this.getColor() == Color.WHITE ? -1 : +1, this.getColor() == Color.WHITE ? +1 : -1};
         return isAttackedBy(board,directional_y,directional_x,PieceType.PAWN);
     }
     public boolean isAttackedBy(Board board, int[] directional_y, int[] directional_x, PieceType AttackByPiece){
@@ -53,7 +78,7 @@ public class King extends Piece implements Cloneable {
                 if (nextSquare.isEmpty()) {
                     continue;
                 }
-                if (isNextSquareHasEnemyPieceType(nextSquare, AttackByPiece)) return true;
+                if (isSquareHasEnemyPieceType(nextSquare, AttackByPiece)) return true;
             }
         }
         return false;
@@ -81,9 +106,9 @@ public class King extends Piece implements Cloneable {
                     tempLocation = new Location(tempX, tempY);
                     continue;
                 }
-                if (isNextSquareHasAllyPiece(nextSquare))
+                if (isSquareHasAllyPiece(nextSquare))
                     break;
-                if (isNextSquareHasEnemyPieceType(nextSquare, pieceType)) {
+                if (isSquareHasEnemyPieceType(nextSquare, pieceType)) {
                     return true;
                 } else {
                     break;
@@ -99,7 +124,6 @@ public class King extends Piece implements Cloneable {
         return isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.BISHOP) ||
                 isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN);
     }
-
     public boolean isRowThreatened(Board board) {
         int[] directional_x = {0, 0};
         int[] directional_y = {+1, -1};
@@ -110,12 +134,11 @@ public class King extends Piece implements Cloneable {
     public boolean isColumnThreatened(Board board) {
         int[] directional_x = {+1, -1};
         int[] directional_y = {0, 0};
-
         return isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.QUEEN) ||
                 isPathAttackedByEnemyPiece(board, directional_y, directional_x, PieceType.ROOK);
     }
 
-    public boolean isNextSquareHasEnemyPieceType(Square nextSquare, PieceType pieceType) {
+    public boolean isSquareHasEnemyPieceType(Square nextSquare, PieceType pieceType) {
         if (isLocationOnBoard(nextSquare.getLocation())) {
             if (nextSquare.getPiece() == null)
                 return false;
@@ -124,7 +147,7 @@ public class King extends Piece implements Cloneable {
         return false;
     }
 
-    public boolean isNextSquareHasAllyPiece(Square nextSquare) {
+    public boolean isSquareHasAllyPiece(Square nextSquare) {
         if (isLocationOnBoard(nextSquare.getLocation())) {
             return nextSquare.getPiece().getColor() == this.getColor();
         }
@@ -136,3 +159,5 @@ public class King extends Piece implements Cloneable {
         return (King) super.clone();
     }
 }
+
+

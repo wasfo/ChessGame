@@ -18,8 +18,10 @@ public class Pawn extends Piece{
         ArrayList<Location> possibleLocations = new ArrayList<>();
         MoveBehavior pawnAttack = new PawnAttack();
         MoveBehavior pawnMove = new PawnMove();
+
         possibleLocations.addAll(pawnAttack.calculatePossibleLocations(this.getLocation(), board));
         possibleLocations.addAll(pawnMove.calculatePossibleLocations(this.getLocation(), board));
+
         return possibleLocations;
     }
 }
